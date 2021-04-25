@@ -2,11 +2,14 @@
   "name": "kwic.ts",
   "version": "0.1.0",
   "description": "Locate keywords-in-contexts",
-  "main": "dist/index.js",
+  "main": "dist/kwic.js",
+  "type": "module",
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
     "test": "jest",
+    "test:debug-devtools": "node --inspect $(npm bin)/jest --no-cache --runInBand",
+    "test:debug-repl": "node inspect $(npm bin)/jest --runInBand",
     "coverage": "jest --coverage"
   },
   "repository": {
@@ -21,8 +24,10 @@
   "homepage": "https://github.com/strboul/kwic.ts#readme",
   "devDependencies": {
     "@types/jest": "*",
+    "babel-jest": "*",
     "jest": "*",
     "ts-jest": "*",
+    "ts-node": "*",
     "typescript": "*"
   }
 }
