@@ -1,5 +1,7 @@
 # kwic.ts
 
+*[WIP]*
+
 It is indeed sometimes helpful to see the adjacent words of a matched word to
 get an idea of the context.
 
@@ -29,7 +31,8 @@ kwic.locate()
 ## Installation
 
 ```bash
-npm install kwic.ts
+# FIXME
+# npm install kwic.ts
 ```
 
 ## Development

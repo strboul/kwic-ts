@@ -26,3 +26,4 @@ export interface Output {
   [id: number]: OutputObject;
 }
 
+export type Tokens = string[];
