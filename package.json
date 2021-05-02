@@ -2,7 +2,17 @@
   "name": "kwic.ts",
   "version": "0.1.0",
   "description": "Locate keywords-in-contexts",
-  "main": "dist/kwic.js",
+  "author": "Metin Yazici",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strboul/kwic.ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/strboul/kwic.ts/issues"
+  },
+  "homepage": "https://github.com/strboul/kwic.ts#readme",
+  "license": "MIT",
+  "main": "./dist/kwic.js",
   "type": "module",
   "scripts": {
     "build": "tsc",
@@ -10,18 +20,9 @@
     "test": "jest",
     "test:debug-devtools": "node --inspect $(npm bin)/jest --no-cache --runInBand",
     "test:debug-repl": "node inspect $(npm bin)/jest --runInBand",
-    "coverage": "jest --coverage"
+    "coverage": "jest --coverage",
+    "clean": "rm -rf dist"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/strboul/kwic.ts.git"
-  },
-  "author": "Metin Yazici",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/strboul/kwic.ts/issues"
-  },
-  "homepage": "https://github.com/strboul/kwic.ts#readme",
   "devDependencies": {
     "@types/jest": "*",
     "babel-jest": "*",
