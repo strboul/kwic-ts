@@ -1,8 +1,8 @@
-import Kwic from "../src/kwic";
+import Kwic from "../kwic";
 
 import { readFileSync } from "fs";
 
-const text = readFileSync("./test/data/text.txt", "utf-8");
+const text = readFileSync("./src/test/data/text.txt", "utf-8");
 
 describe("test Kwic class with the text", () => {
   const kwic = new Kwic(text, "[e|E]lement");

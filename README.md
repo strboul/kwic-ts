@@ -1,4 +1,4 @@
-# kwic.ts
+# kwic-ts
 
 *[WIP]*
 
@@ -11,7 +11,7 @@ See the adjacent words of a matched word to grab its context better.
 ## Usage
 
 ```js
-import Kwic from "Kwic";
+import Kwic from "@strboul/kwic-ts";
 
 const text = `
 I'm a deep water sailor just come from Hong Kong
@@ -20,7 +20,8 @@ You give me some whiskey, I'll sing you a song
 There's tinkers and tailors, shoemakers and all
 They're all shipped for sailors aboard the Black Ball
 `;
-const kwic = new Kwic(text, "[s|t]ailor");
+const pattern = "[s|t]ailor";
+const kwic = new Kwic(text, pattern);
 kwic.locate();
 // {
 //   positions: [
@@ -54,8 +55,7 @@ kwic.locate();
 ## Installation
 
 ```bash
-# FIXME
-# npm install kwic.ts
+npm install @strboul/kwic-ts
 ```
 
 ## Development

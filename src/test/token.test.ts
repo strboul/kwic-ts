@@ -1,4 +1,4 @@
-import Token from "../src/token";
+import Token from "../token";
 
 describe("test Token", () => {
   const text = "The quick brown fox jumps over the lazy dog.";
