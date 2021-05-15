@@ -1,4 +1,4 @@
-import Context from "../src/context";
+import Context from "../context";
 
 describe("test Context", () => {
   test("get matches and positions of the tokens", () => {

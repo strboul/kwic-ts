@@ -1,4 +1,4 @@
-import Window from "../src/window";
+import Window from "../window";
 
 describe("test Window", () => {
   const window = new Window(3, 3, 25);
