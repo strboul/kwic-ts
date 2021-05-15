@@ -19,8 +19,8 @@ class Kwic implements KwicModel.Input {
   }
 
   locate() {
-    const hasTerm = this.hasTerm();
-    if (hasTerm) {
+    const hasTerm: boolean = this.hasTerm();
+    if (!hasTerm) {
       return null;
     }
 
@@ -37,8 +37,8 @@ class Kwic implements KwicModel.Input {
     return contexted;
   }
 
-  private hasTerm() {
-    return this.text.includes(this.term);
+  private hasTerm(): boolean {
+    return this.text.search(this.term) !== -1;
   }
 }
 

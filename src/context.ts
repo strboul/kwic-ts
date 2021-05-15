@@ -1,4 +1,4 @@
-import { Tokens } from "./kwic.model";
+import * as KwicModel from "./kwic.model";
 import Window from "./window";
 
 class Context {
@@ -9,7 +9,7 @@ class Context {
   private matches: any;
 
   constructor(
-    public tokens: Tokens,
+    public tokens: KwicModel.Tokens,
     public term: string,
     // TODO Partial<T> Window ??
     public windowLeft: number,
@@ -22,7 +22,7 @@ class Context {
     this.window = new Window(windowLeft, windowRight, tokensLen);
   }
 
-  getContext() {
+  getContext(): KwicModel.OutputContext {
     this.searchInTokens();
     this.calcPositions();
     this.findMatches();

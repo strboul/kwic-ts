@@ -104,7 +104,24 @@ describe("test Context", () => {
     ]);
   });
 
-  test("test the corners", () => {
-    // TODO
+  test("test the corners - when the term first or last token", () => {
+    const tokensFox = ["Fox", "said:", "I", "am", "a", "fox."];
+
+    const context = new Context(tokensFox, "[F|f]ox", 3, 3);
+    const contexted = context.getContext();
+
+    expect(contexted.positions).toStrictEqual([
+      { index: 0, leftIdx: [], rightIdx: [1, 2, 3] },
+      { index: 5, leftIdx: [2, 3, 4], rightIdx: [6] },
+    ]);
+
+    expect(contexted.matches).toStrictEqual([
+      { index: "Fox", leftIdx: [], rightIdx: ["said:", "I", "am"] },
+      {
+        index: "fox.",
+        leftIdx: ["I", "am", "a"],
+        rightIdx: [undefined], // TODO fix this
+      },
+    ]);
   });
 });
