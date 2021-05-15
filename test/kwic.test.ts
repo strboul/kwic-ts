@@ -19,8 +19,10 @@ describe("test Kwic class with the text", () => {
   const located = kwic.locate();
 
   test("located positions and matches have the same length", () => {
-    expect(located!.positions.length).toBe(18);
-    expect(located!.positions.length).toStrictEqual(located!.matches.length);
+    expect(Object.keys(located!.positions).length).toBe(18);
+    expect(Object.keys(located!.positions).length).toStrictEqual(
+      Object.keys(located!.matches).length
+    );
   });
 
   test("the located positions", () => {
@@ -99,6 +101,105 @@ describe("test Kwic class with the text", () => {
   });
 
   test("the located matches", () => {
-    // TODO
+    expect(located!.matches).toStrictEqual([
+      {
+        index: "Element:",
+        leftIdx: [],
+        rightIdx: ["Hydrogen", "is", "the"],
+      },
+      {
+        index: "element",
+        leftIdx: ["is", "the", "chemical"],
+        rightIdx: ["with", "the", "symbol"],
+      },
+      {
+        index: "element",
+        leftIdx: ["is", "the", "lightest"],
+        rightIdx: ["in", "the", "periodic"],
+      },
+      {
+        index: "element",
+        leftIdx: ["is", "a", "chemical"],
+        rightIdx: ["with", "the", "symbol"],
+      },
+      {
+        index: "elements.",
+        leftIdx: ["among", "all", "the"],
+        rightIdx: ["Helium", "is", "the"],
+      },
+      {
+        index: "element",
+        leftIdx: ["second", "most", "abundant"],
+        rightIdx: ["in", "the", "observable"],
+      },
+      {
+        index: "elemental",
+        leftIdx: ["of", "the", "total"],
+        rightIdx: ["mass,", "which", "is"],
+      },
+      {
+        index: "elements",
+        leftIdx: ["all", "the", "heavier"],
+        rightIdx: ["combined.", "Its", "abundance"],
+      },
+      {
+        index: "elements",
+        leftIdx: ["the", "next", "three"],
+        rightIdx: ["after", "helium.", "This"],
+      },
+      {
+        index: "element",
+        leftIdx: ["is", "the", "chemical"],
+        rightIdx: ["with", "the", "symbol"],
+      },
+      {
+        index: "element",
+        leftIdx: ["is", "the", "chemical"],
+        rightIdx: ["with", "the", "symbol"],
+      },
+      {
+        index: "elements",
+        leftIdx: ["oxides", "with", "most"],
+        rightIdx: ["as", "well", "as"],
+      },
+      {
+        index: "element",
+        leftIdx: ["the", "third-most", "abundant"],
+        rightIdx: ["in", "the", "universe"],
+      },
+      {
+        index: "element",
+        leftIdx: ["atoms", "of", "the"],
+        rightIdx: ["bind", "to", "form"],
+      },
+      {
+        index: "element",
+        leftIdx: ["is", "a", "chemical"],
+        rightIdx: ["with", "the", "symbol"],
+      },
+      {
+        index: "element",
+        leftIdx: ["sixth", "most", "abundant"],
+        rightIdx: ["in", "the", "Earth's"],
+      },
+      {
+        index: "elements",
+        leftIdx: ["most", "common", "dissolved"],
+        rightIdx: ["by", "weight", "in"],
+      },
+      {
+        index: "elements.",
+        leftIdx: ["They", "are", "the"],
+        rightIdx: ["", undefined], // TODO fix this
+      },
+    ]);
+  });
+});
+
+describe("if the term doesn't exist, it returns", () => {
+  test("returns null", () => {
+    const text = "The quick brown fox jumps over the lazy dog.";
+    const kwic = new Kwic(text, "lion");
+    expect(kwic.locate()).toBeNull();
   });
 });
