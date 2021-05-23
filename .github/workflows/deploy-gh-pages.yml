@@ -1,0 +1,29 @@
+name: deploy-gh-pages
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "example/**"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: example
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install and build
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+      - run: npm install
+      - run: npm run build
+
+      - name: Deploy the example app
+        uses: JamesIves/github-pages-deploy-action@4.1.3
+        with:
+          branch: gh-pages
+          folder: .next

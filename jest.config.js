@@ -1,6 +1,7 @@
-export default {
+module.exports = {
   preset: "ts-jest",
   transform: {
-    "^.+\\.(ts|tsx)?$": "ts-jest",
+    "^.+\\.ts?$": "ts-jest",
   },
+  testMatch: ["<rootDir>/src/**/*.test.ts"],
 };

@@ -1,5 +1,10 @@
 # kwic-ts
 
+>  Locate keywords-in-contexts 
+
+<!-- badges: start -->
+<!-- badges: end -->
+
 *[WIP]*
 
 KWIC (Keyword-in-context) helps you see the
