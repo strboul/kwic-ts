@@ -65,16 +65,15 @@ class Window {
   private calcWinId(
     buffer: number,
     boundary: number,
-    operator: Function
+    operator: Function,
   ): number | null {
     if (this.id === boundary) {
       return null;
     }
     if (operator(buffer, boundary)) {
       return boundary;
-    } else {
-      return buffer;
     }
+    return buffer;
   }
 }
 
