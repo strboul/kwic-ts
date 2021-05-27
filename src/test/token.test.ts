@@ -1,7 +1,7 @@
 import Token from "../token";
 
 describe("test Token", () => {
-  const text = "The quick brown fox jumps over the lazy dog.";
+  const text = "\nThe              quick brown fox jumps over the lazy dog.\n";
   const token = new Token(text);
 
   test("tokenize text", () => {

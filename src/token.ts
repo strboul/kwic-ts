@@ -10,7 +10,12 @@ class Token {
   tokenize(): Tokens {
     this.removeExtraSpacesFromText();
     this.tokenizeText();
+    this.removeEmptyTokens();
     return this.tokens;
+  }
+
+  private removeEmptyTokens(): void {
+    this.tokens = this.tokens.filter(Boolean);
   }
 
   private tokenizeText(): void {

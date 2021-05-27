@@ -112,7 +112,7 @@ describe("test Context", () => {
 
     expect(contexted.positions).toStrictEqual([
       { index: 0, leftIdx: [], rightIdx: [1, 2, 3] },
-      { index: 5, leftIdx: [2, 3, 4], rightIdx: [6] },
+      { index: 5, leftIdx: [2, 3, 4], rightIdx: [] },
     ]);
 
     expect(contexted.matches).toStrictEqual([
@@ -120,7 +120,7 @@ describe("test Context", () => {
       {
         index: "fox.",
         leftIdx: ["I", "am", "a"],
-        rightIdx: [undefined], // TODO fix this
+        rightIdx: [],
       },
     ]);
   });

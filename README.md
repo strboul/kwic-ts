@@ -1,17 +1,15 @@
 # kwic-ts
 
->  Locate keywords-in-contexts 
+>  Locate keywords-in-contexts
 
 <!-- badges: start -->
+[![CI](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml)
 <!-- badges: end -->
 
 *[WIP]*
 
-KWIC (Keyword-in-context) helps you see the
-matching words with the preceding and/or following words that might convey more
-information about the matched word use.
-
-See the adjacent words of a matched word to grab its context better.
+KWIC (Keyword-in-context) helps you see a match with adjacent words in order to
+convey more information about the context.
 
 ## Usage
 
@@ -60,6 +58,7 @@ kwic.locate();
 ## Installation
 
 ```bash
+# TODO
 npm install @strboul/kwic-ts
 ```
 
@@ -71,5 +70,7 @@ npm run test
 
 # start debugger:
 npm run test:debug-devtools # via Chrome DevTools
+
 npm run test:debug-repl # via node REPL
+npm run test:debug-repl -- kwic.test.ts -t "token" # optional file & test pattern
 ```

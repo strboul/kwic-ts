@@ -5,7 +5,9 @@ class Context {
   private window: any;
 
   private matchTokens: number[] = [];
+
   private positions: any;
+
   private matches: any;
 
   constructor(
@@ -13,12 +15,12 @@ class Context {
     public term: string,
     // TODO Partial<T> Window ??
     public windowLeft: number,
-    public windowRight: number
+    public windowRight: number,
   ) {
     this.tokens = tokens;
     this.term = term;
 
-    const tokensLen = tokens.length;
+    const tokensLen = tokens.length - 1;
     this.window = new Window(windowLeft, windowRight, tokensLen);
   }
 
@@ -59,7 +61,7 @@ class Context {
         return null;
       }
       const windowIdx = this.window.getWindowIdx(index);
-      const indexObj = { index: index };
+      const indexObj = { index };
       const positions = { ...indexObj, ...windowIdx };
       return positions;
     });

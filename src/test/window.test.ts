@@ -78,19 +78,19 @@ describe("test Window with unbalanced windows", () => {
 describe("input parameter validations", () => {
   test("min range", () => {
     expect(() => new Window(3, 3, 10, -1).getWindowIdx(0)).toThrowError(
-      "'min' cannot be smaller than 0"
+      "'min' cannot be smaller than 0",
     );
   });
 
   test("id range", () => {
     expect(() => new Window(3, 3, 10).getWindowIdx(25)).toThrowError(
-      "'id' must be between 'min' and 'max'"
+      "'id' must be between 'min' and 'max'",
     );
   });
 
   test("window range", () => {
     expect(() => new Window(-1, 3, 10).getWindowIdx(0)).toThrowError(
-      "'windowLeft' and/or 'windowRight' cannot be smaller than 0"
+      "'windowLeft' and/or 'windowRight' cannot be smaller than 0",
     );
   });
 });
