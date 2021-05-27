@@ -20,11 +20,11 @@
     "test:debug-devtools": "node --inspect $(npm bin)/jest --no-cache --runInBand",
     "test:debug-repl": "node inspect $(npm bin)/jest --runInBand",
     "lint": "eslint src/** --ext .ts",
-    "prettierCheck": "prettier --list-different '{,!(build|coverage|dist|example)/**/}*.{css,js,jsx,ts}'",
+    "formatter": "prettier --list-different '{,!(build|coverage|dist|example)/**/}*.{css,js,jsx,ts}'",
     "coverage": "jest --coverage",
     "clean": "rm -rf dist",
-    "npmLink": "npm link '@strboul/kwic-ts'",
-    "npmPublish": "npm login && npm publish --access public"
+    "npm-link": "npm link '@strboul/kwic-ts'",
+    "npm-publish": "npm login && npm publish --access public"
   },
   "devDependencies": {
     "@types/jest": "*",
@@ -37,6 +37,7 @@
     "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-prettier": "^3.4.0",
     "jest": "*",
+    "prettier": "2.3.0",
     "ts-jest": "*",
     "ts-node": "*",
     "typescript": "*"

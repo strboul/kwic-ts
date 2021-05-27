@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+    # if a file from the example folder is modified, trigger the deployment
     paths:
       - "example/**"
 
@@ -23,8 +24,13 @@ jobs:
 
       - run: npm run build && npm run export
 
+      # tell gh-pages that the application isn't Jekyll
+      - run: touch out/.nojekyll
+
       - name: Deploy the example app
         uses: JamesIves/github-pages-deploy-action@4.1.3
         with:
           branch: gh-pages
-          folder: out
+          folder: example/out
+          single-commit: true
+          clean: true
