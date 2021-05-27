@@ -20,10 +20,11 @@ jobs:
         with:
           node-version: 16
       - run: npm install
-      - run: npm run build
+
+      - run: npm run build && npm run export
 
       - name: Deploy the example app
         uses: JamesIves/github-pages-deploy-action@4.1.3
         with:
           branch: gh-pages
-          folder: .next
+          folder: out

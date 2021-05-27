@@ -8,7 +8,7 @@ class Window {
     public windowLeft: number,
     public windowRight: number,
     public max: number,
-    public min: number = 0
+    public min: number = 0,
   ) {
     this.windowLeft = windowLeft;
     this.windowRight = windowRight;
@@ -25,7 +25,7 @@ class Window {
     }
     if (this.windowLeft < 0 || this.windowRight < 0) {
       throw new RangeError(
-        "'windowLeft' and/or 'windowRight' cannot be smaller than 0"
+        "'windowLeft' and/or 'windowRight' cannot be smaller than 0",
       );
     }
   }

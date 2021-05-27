@@ -1,4 +1,5 @@
 type HasKeys<T> = {
+  // eslint-disable-next-line no-unused-vars
   [P in keyof T]: any;
 };
 

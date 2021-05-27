@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Head from "next/head";
 import GithubCorner from "react-github-corner";
-// @ts-ignore
 import { HighlightWithinTextarea } from "react-highlight-within-textarea";
 
 // import Kwic from "@strboul/kwic-ts";
-import Kwic from "../../dist/kwic";
+// import Kwic from "../../dist/kwic";
 
 const DEFAULT_TERM = "fox";
 const DEFAULT_TEXTFIELD = `The earliest known appearance of the phrase is from The Boston Journal. In an article titled "Current Notes" in the February 9, 1885, edition, the phrase is mentioned as a good practice sentence for writing students: "A favorite copy set by writing teachers for their pupils is the following, because it contains every letter of the alphabet: 'A quick brown fox jumps over the lazy dog.'"[2] Dozens of other newspapers published the phrase over the next few months, all using the version of the sentence starting with "A" rather than "The".[3] The earliest known use of the phrase starting with "The" is from the 1888 book Illustrative Shorthand by Linda Bronson.[4] The modern form (starting with "The") became more common despite the fact that it is slightly longer than the original (starting with "A").
@@ -24,38 +23,26 @@ const AppHead = () => {
   );
 };
 
-interface IWrapper {
-  children: React.ReactNode;
-}
-
-const AppBody = ({ children }: IWrapper) => {
-  return <div className="py-8 px-8 h-screen md:px-24">{children}</div>;
+const AppBody = ({ children }) => {
+  return <div className="AppBody">{children}</div>;
 };
 
 const Title = () => {
   return (
     <div>
-      <p className="text-lg font-bold md:text-3xl">
-        <span className="px-4 pt-2 pb-4 text-yellow-700 bg-yellow-200 rounded-xl">
-          KWIC | Keyword-in-contexts
-        </span>
-      </p>
+      <h1>
+        <span className="Title">KWIC | Keyword-in-contexts</span>
+      </h1>
     </div>
   );
 };
 
-interface ITermInput {
-  term: string;
-  setTerm: React.Dispatch<React.SetStateAction<string>>;
-}
-
-const TermInput = ({ term, setTerm }: ITermInput) => {
+const InputTerm = ({ term, setTerm }) => {
   return (
-    <div className="px-6 py-4">
-      <label className="block italic text-gray-600">Term</label>
+    <div className="Input">
+      <label>term</label>
       <input
         type="text"
-        className="py-1 pl-2 border border-l-8 border-blue-500 rounded-sm focus:bg-blue-100"
         value={term}
         onChange={(event) => setTerm(event.target.value)}
       />
@@ -63,12 +50,25 @@ const TermInput = ({ term, setTerm }: ITermInput) => {
   );
 };
 
-interface ITextFieldInput {
-  textField: string;
-  setTextField: React.Dispatch<React.SetStateAction<string>>;
-}
+const InputWindow = ({ id, windows, setWindows }) => {
+  return (
+    <div className="Input">
+      <label>window {id}</label>
+      <input
+        type="number"
+        value={windows[id]}
+        onChange={(event) =>
+          setWindows((prevState) => ({
+            ...prevState,
+            [id]: Number.parseInt(event.target.value),
+          }))
+        }
+      />
+    </div>
+  );
+};
 
-const TextFieldInput = ({ textField, setTextField }: ITextFieldInput) => {
+const TextField = ({ textField, setTextField }) => {
   const highlight = [
     {
       highlight: [6, 11],
@@ -82,18 +82,24 @@ const TextFieldInput = ({ textField, setTextField }: ITextFieldInput) => {
       highlight: [18, 21],
       className: "red",
     },
+    {
+      highlight: [25, 29],
+      className: "red",
+    },
+    {
+      highlight: [30, 31],
+      className: "red",
+    },
   ];
   return (
-    <div className="px-6 py-2">
+    <div className="TextField">
       <HighlightWithinTextarea
         value={textField}
         highlight={highlight}
         rows="20"
         containerStyle={{ width: "100%" }}
         style={{ width: "100%", borderStyle: "none" }}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-          setTextField(event.target.value)
-        }
+        onChange={(event) => setTextField(event.target.value)}
       />
     </div>
   );
@@ -111,18 +117,19 @@ const GithubRibbon = () => {
   );
 };
 
-const InputBody = ({ children }: IWrapper) => {
-  return <div className="py-4 bg-yellow-100 rounded-xl">{children}</div>;
+const InputBody = ({ children }) => {
+  return <div className="InputBody">{children}</div>;
 };
 
 const Index = () => {
-  const [textField, setTextField] = useState<string>(DEFAULT_TEXTFIELD);
-  const [term, setTerm] = useState<string>(DEFAULT_TERM);
+  const [term, setTerm] = React.useState(DEFAULT_TERM);
+  const [windows, setWindows] = React.useState({ left: 3, right: 3 });
+  const [textField, setTextField] = React.useState(DEFAULT_TEXTFIELD);
 
-  useEffect(() => {
-    const kwic = new Kwic(textField, term);
-    console.log(kwic.locate());
-  }, [textField, term]);
+  // useEffect(() => {
+  // const kwic = new Kwic(textField, term);
+  // console.log(kwic.locate());
+  // }, [textField, term]);
 
   return (
     <>
@@ -131,9 +138,11 @@ const Index = () => {
         <Title />
         <GithubRibbon />
         <InputBody>
-          <TermInput term={term} setTerm={setTerm} />
-          <TextFieldInput textField={textField} setTextField={setTextField} />
+          <InputTerm term={term} setTerm={setTerm} />
+          <InputWindow id="left" windows={windows} setWindows={setWindows} />
+          <InputWindow id="right" windows={windows} setWindows={setWindows} />
         </InputBody>
+        <TextField textField={textField} setTextField={setTextField} />
       </AppBody>
     </>
   );
