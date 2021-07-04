@@ -1,4 +1,5 @@
 import * as KwicModel from "./kwic.model";
+import { TTokens } from "./token";
 import Window from "./window";
 
 class Context {
@@ -11,17 +12,15 @@ class Context {
   private matches: any;
 
   constructor(
-    public tokens: KwicModel.Tokens,
+    public tokens: TTokens,
     public term: string,
-    // TODO Partial<T> Window ??
-    public windowLeft: number,
-    public windowRight: number,
+    public windows: number[],
   ) {
     this.tokens = tokens;
     this.term = term;
 
     const tokensLen = tokens.length - 1;
-    this.window = new Window(windowLeft, windowRight, tokensLen);
+    this.window = new Window(windows, tokensLen);
   }
 
   getContext(): KwicModel.OutputContext {
@@ -61,16 +60,16 @@ class Context {
         return null;
       }
       const windowIdx = this.window.getWindowIdx(index);
-      const indexObj = { index };
-      const positions = { ...indexObj, ...windowIdx };
-      return positions;
+      return windowIdx;
     });
     out = out.filter(Boolean);
     this.positions = out;
   }
 
   private searchInTokens(): void {
-    this.matchTokens = this.tokens.map((token) => token.search(this.term));
+    this.matchTokens = this.tokens.map((token: string) =>
+      token.search(this.term),
+    );
   }
 }
 

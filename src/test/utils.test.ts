@@ -13,3 +13,13 @@ describe("test seq", () => {
     expect(Utils.seq(2, 2)).toStrictEqual([2]);
   });
 });
+
+describe("test sum", () => {
+  test("simple array", () => {
+    expect(Utils.sum([1, 2, 3, 4])).toEqual(10);
+  });
+
+  test("empty array input returns zero", () => {
+    expect(Utils.sum([])).toEqual(0);
+  });
+});

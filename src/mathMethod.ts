@@ -1,5 +1,5 @@
-/** Binary operators are turned into methods in order to pass them as a e.g.
- * method argument
+/** Binary operators are turned into methods in order to pass them as method
+ * arguments
  */
 class MathMethod {
   public static plus(x: number, y: number): number {

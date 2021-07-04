@@ -52,8 +52,22 @@ kwic.locate();
 // };
 ```
 
-<!-- It's also possible to specify the number of words before and after the matching -->
-<!-- word independently *(default is 3)*. -->
+## API
+
+`kwic-ts` uses [Method chaining](https://en.wikipedia.org/wiki/Method_chaining)
+for its API. Given the table below, `tokens` object and `positions()` method
+can be obtained from the class, `matches()` and `ranges()` methods can be
+retrieved from the `positions()` method object.
+
+| class or method                 |                |              | description        |
+|:-------------------------------:|:--------------:|:------------:|:------------------:|
+| `new Kwic(text, term, windows)` |                |              | new Kwic class     |
+|                                 | `.tokens`      |              | tokens object      |
+|                                 | `.positions()` |              | get word positions |
+|                                 |                | `.matches()` | get word matches   |
+|                                 |                | `.ranges()`  | get word ranges    |
+
+e.g. for the word matches, one should run `new Kwic(...).positions().ranges()`.
 
 ## Installation
 
@@ -64,6 +78,8 @@ npm install @strboul/kwic-ts
 
 ## Development
 
+<details>
+
 ```bash
 # run tests:
 npm run test
@@ -71,6 +87,11 @@ npm run test
 # start debugger:
 npm run test:debug-devtools # via Chrome DevTools
 
-npm run test:debug-repl # via node REPL
-npm run test:debug-repl -- kwic.test.ts -t "token" # optional file & test pattern
+npm run test:debug-repl # via node.js REPL
+npm run test:debug-repl -- kwic.test.ts -t "token" # specify optional file and test pattern
+
+npm run npm:link # create a symbolic link from globally-installed package-name to node_modules
+npm run npm:publish # publish to npm registry (with credentials)
 ```
+
+</details>

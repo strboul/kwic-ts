@@ -3,8 +3,7 @@ import Head from "next/head";
 import GithubCorner from "react-github-corner";
 import { HighlightWithinTextarea } from "react-highlight-within-textarea";
 
-// import Kwic from "@strboul/kwic-ts";
-// import Kwic from "../../dist/kwic";
+import Kwic from "@strboul/kwic-ts";
 
 const DEFAULT_TERM = "fox";
 const DEFAULT_TEXTFIELD = `The earliest known appearance of the phrase is from The Boston Journal. In an article titled "Current Notes" in the February 9, 1885, edition, the phrase is mentioned as a good practice sentence for writing students: "A favorite copy set by writing teachers for their pupils is the following, because it contains every letter of the alphabet: 'A quick brown fox jumps over the lazy dog.'"[2] Dozens of other newspapers published the phrase over the next few months, all using the version of the sentence starting with "A" rather than "The".[3] The earliest known use of the phrase starting with "The" is from the 1888 book Illustrative Shorthand by Linda Bronson.[4] The modern form (starting with "The") became more common despite the fact that it is slightly longer than the original (starting with "A").
@@ -68,29 +67,26 @@ const InputWindow = ({ id, windows, setWindows }) => {
   );
 };
 
-const TextField = ({ textField, setTextField }) => {
-  const highlight = [
+const createHighlightArr = (ranges) => {
+  const out = ranges.map((range) => [
     {
-      highlight: [6, 11],
+      highlight: range.index,
       className: "red",
     },
     {
-      highlight: [12, 17],
+      highlight: range.left,
       className: "blue",
     },
     {
-      highlight: [18, 21],
-      className: "red",
+      highlight: range.right,
+      className: "blue",
     },
-    {
-      highlight: [25, 29],
-      className: "red",
-    },
-    {
-      highlight: [30, 31],
-      className: "red",
-    },
-  ];
+  ]);
+  return out.flat();
+};
+
+const TextField = ({ textField, setTextField, ranges }) => {
+  const highlight = createHighlightArr(ranges);
   return (
     <div className="TextField">
       <HighlightWithinTextarea
@@ -122,14 +118,17 @@ const InputBody = ({ children }) => {
 };
 
 const Index = () => {
-  const [term, setTerm] = React.useState(DEFAULT_TERM);
   const [windows, setWindows] = React.useState({ left: 3, right: 3 });
+  const [term, setTerm] = React.useState(DEFAULT_TERM);
   const [textField, setTextField] = React.useState(DEFAULT_TEXTFIELD);
 
-  // useEffect(() => {
-  // const kwic = new Kwic(textField, term);
-  // console.log(kwic.locate());
+  const [ranges, setRanges] = React.useState([]);
+
+  // React.useEffect(() => {
+  //   const kwic = new Kwic(textField, term);
+  //   setRanges(kwic.locate().ranges)
   // }, [textField, term]);
+  // console.log(ranges)
 
   return (
     <>
@@ -142,7 +141,11 @@ const Index = () => {
           <InputWindow id="left" windows={windows} setWindows={setWindows} />
           <InputWindow id="right" windows={windows} setWindows={setWindows} />
         </InputBody>
-        <TextField textField={textField} setTextField={setTextField} />
+        <TextField
+          textField={textField}
+          setTextField={setTextField}
+          ranges={ranges}
+        />
       </AppBody>
     </>
   );
