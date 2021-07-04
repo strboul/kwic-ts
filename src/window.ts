@@ -1,45 +1,50 @@
 import Utils from "./utils";
 import MathMethod from "./mathMethod";
 
+type winIdx = number[] | [];
+
+export interface IWindow {
+  index: number;
+  leftIdx: winIdx;
+  rightIdx: winIdx;
+}
+
 class Window {
   id!: number;
 
   constructor(
-    public windowLeft: number,
-    public windowRight: number,
+    public windows: number[],
     public max: number,
     public min: number = 0,
   ) {
-    this.windowLeft = windowLeft;
-    this.windowRight = windowRight;
+    this.windows = windows;
     this.max = max;
     this.min = min;
   }
 
-  private validate() {
+  getWindowIdx(id: number): IWindow {
+    this.id = id;
+    this.validate();
+    const leftIdx = this.getLeftWindowIdx() as winIdx;
+    const rightIdx = this.getRightWindowIdx() as winIdx;
+    return { index: this.id, leftIdx, rightIdx };
+  }
+
+  private validate(): void {
     if (this.min < 0) {
       throw new RangeError("'min' cannot be smaller than 0");
     }
     if (this.id > this.max || this.id < this.min) {
       throw new RangeError("'id' must be between 'min' and 'max'");
     }
-    if (this.windowLeft < 0 || this.windowRight < 0) {
-      throw new RangeError(
-        "'windowLeft' and/or 'windowRight' cannot be smaller than 0",
-      );
+    if (this.windows.some((win) => win < 0)) {
+      throw new RangeError("'windows' values cannot be smaller than 0");
     }
   }
 
-  getWindowIdx(id: number) {
-    this.id = id;
-    this.validate();
-    const leftIdx = this.getLeftWindowIdx();
-    const rightIdx = this.getRightWindowIdx();
-    return { leftIdx, rightIdx };
-  }
-
-  private getLeftWindowIdx(): number[] | null {
-    const buffer: number = this.calcBuffer(this.windowLeft, MathMethod.minus);
+  private getLeftWindowIdx(): winIdx | null {
+    const [windowLeft] = this.windows;
+    const buffer: number = this.calcBuffer(windowLeft, MathMethod.minus);
     const winId = this.calcWinId(buffer, this.min, MathMethod.isSmallerThan);
     if (winId === null) {
       return [];
@@ -48,8 +53,9 @@ class Window {
     return winSeq;
   }
 
-  private getRightWindowIdx() {
-    const buffer: number = this.calcBuffer(this.windowRight, MathMethod.plus);
+  private getRightWindowIdx(): winIdx | null {
+    const [, windowRight] = this.windows;
+    const buffer: number = this.calcBuffer(windowRight, MathMethod.plus);
     const winId = this.calcWinId(buffer, this.max, MathMethod.isGreaterThan);
     if (winId === null) {
       return [];

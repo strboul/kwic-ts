@@ -1,25 +1,25 @@
-import { Tokens } from "./kwic.model";
+export type TTokens = string[];
 
 class Token {
-  private tokens: Tokens = [];
+  private tokensArr: TTokens = [];
 
   constructor(public text: string) {
     this.text = text;
   }
 
-  tokenize(): Tokens {
+  get tokens(): TTokens {
     this.removeExtraSpacesFromText();
     this.tokenizeText();
     this.removeEmptyTokens();
-    return this.tokens;
+    return this.tokensArr;
   }
 
   private removeEmptyTokens(): void {
-    this.tokens = this.tokens.filter(Boolean);
+    this.tokensArr = this.tokensArr.filter(Boolean);
   }
 
   private tokenizeText(): void {
-    this.tokens = this.text.split(" ");
+    this.tokensArr = this.text.split(" ");
   }
 
   private removeExtraSpacesFromText(): void {

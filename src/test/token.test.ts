@@ -2,10 +2,10 @@ import Token from "../token";
 
 describe("test Token", () => {
   const text = "\nThe              quick brown fox jumps over the lazy dog.\n";
-  const token = new Token(text);
+  const { tokens } = new Token(text);
 
   test("tokenize text", () => {
-    expect(token.tokenize()).toStrictEqual([
+    expect(tokens).toStrictEqual([
       "The",
       "quick",
       "brown",
@@ -16,5 +16,14 @@ describe("test Token", () => {
       "lazy",
       "dog.",
     ]);
+  });
+});
+
+describe("when text is an empty string", () => {
+  const text = "";
+  const { tokens } = new Token(text);
+
+  test("tokenize text returns an empty array", () => {
+    expect(tokens).toStrictEqual([]);
   });
 });

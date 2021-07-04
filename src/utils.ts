@@ -11,6 +11,16 @@ class Utils {
     });
     return res;
   }
+
+  /** Sum elements of a numeric array
+   *
+   * @param arr a numeric array.
+   * @returns a number indicating the sum value.
+   */
+  public static sum(arr: number[]): number {
+    if (arr.length === 0) return 0;
+    return arr.reduce((prev: number, curr: number) => prev + curr);
+  }
 }
 
 export default Utils;

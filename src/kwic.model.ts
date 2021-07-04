@@ -1,3 +1,5 @@
+// TODO disperse those models
+
 type HasKeys<T> = {
   // eslint-disable-next-line no-unused-vars
   [P in keyof T]: any;
@@ -29,8 +31,6 @@ export interface OutputContext {
 export interface Output {
   [id: number]: OutputContext;
 }
-
-export type Tokens = string[];
 
 export interface Input {
   text: string;

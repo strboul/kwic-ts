@@ -18,12 +18,7 @@ describe("test Kwic class with the text", () => {
   const kwic = new Kwic(text, "[e|E]lement");
 
   test("initialization has the correct object", () => {
-    expect(Object.keys(kwic)).toStrictEqual([
-      "windowLeft",
-      "windowRight",
-      "text",
-      "term",
-    ]);
+    expect(Object.keys(kwic)).toStrictEqual(["windows", "text", "term"]);
   });
 
   const located = kwic.locate();
@@ -74,6 +69,6 @@ describe("if the term doesn't exist, it returns", () => {
   test("returns null", () => {
     const pangram = "The quick brown fox jumps over the lazy dog.";
     const kwic = new Kwic(pangram, "lion");
-    expect(kwic.locate()).toBeNull();
+    expect(kwic.locate()).toStrictEqual([]);
   });
 });

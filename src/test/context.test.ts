@@ -28,7 +28,7 @@ describe("test Context", () => {
       "the",
       "wall...",
     ];
-    const context = new Context(tokens, "bottles", 3, 3);
+    const context = new Context(tokens, "bottles", [3, 3]);
     const contexted = context.getContext();
 
     expect(contexted.positions).toStrictEqual([
@@ -57,7 +57,7 @@ describe("test Context", () => {
   });
 
   test("term is a regex pattern", () => {
-    const tokensLyrics = [
+    const tokens = [
       "One",
       "night",
       "when",
@@ -82,7 +82,7 @@ describe("test Context", () => {
       "and",
       "roar.",
     ];
-    const context = new Context(tokensLyrics, "[fri|whi]sky", 3, 3);
+    const context = new Context(tokens, "[fri|whi]sky", [3, 3]);
     const contexted = context.getContext();
 
     expect(contexted.positions).toStrictEqual([
@@ -105,9 +105,9 @@ describe("test Context", () => {
   });
 
   test("test the corners - when the term first or last token", () => {
-    const tokensFox = ["Fox", "said:", "I", "am", "a", "fox."];
+    const tokens = ["Fox", "said:", "I", "am", "a", "fox."];
 
-    const context = new Context(tokensFox, "[F|f]ox", 3, 3);
+    const context = new Context(tokens, "[F|f]ox", [3, 3]);
     const contexted = context.getContext();
 
     expect(contexted.positions).toStrictEqual([
