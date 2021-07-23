@@ -1,6 +1,7 @@
 import Kwic from "../kwic";
 
-const text = `
+describe("test Kwic class", () => {
+  const text = `
 Element: Hydrogen is the chemical element with the symbol H and atomic number
 1. With a standard atomic weight of 1.008, hydrogen is the lightest element
 in the periodic table. Hydrogen is the most abundant chemical substance in
@@ -13,62 +14,133 @@ Source: Wikipedia.org
 
 They are the elements.
 `;
+  const term = "[e|E]lement";
+  const kwic = new Kwic(text, term);
 
-describe("test Kwic class with the text", () => {
-  const kwic = new Kwic(text, "[e|E]lement");
-
-  test("initialization has the correct object", () => {
-    expect(Object.keys(kwic)).toStrictEqual(["windows", "text", "term"]);
-  });
-
-  const located = kwic.locate();
-
-  test("located positions and matches have the same length", () => {
-    expect(Object.keys(located!.positions).length).toBe(4);
-    expect(Object.keys(located!.positions).length).toStrictEqual(
-      Object.keys(located!.matches).length,
-    );
-  });
-
-  test("the located positions", () => {
-    expect(located!.positions).toStrictEqual([
-      { index: 0, leftIdx: [], rightIdx: [1, 2, 3] },
-      { index: 5, leftIdx: [2, 3, 4], rightIdx: [6, 7, 8] },
-      { index: 25, leftIdx: [22, 23, 24], rightIdx: [26, 27, 28] },
-      { index: 83, leftIdx: [80, 81, 82], rightIdx: [] },
+  test("initialized has the correct fields", () => {
+    expect(Object.keys(kwic)).toStrictEqual([
+      "text",
+      "term",
+      "windows",
+      "positions",
     ]);
   });
 
-  test("the located matches", () => {
-    expect(located!.matches).toStrictEqual([
+  const positions = kwic.getPositions();
+  const matches = kwic.getMatches();
+  const ranges = kwic.getRanges();
+
+  test("positions and matches have the same length", () => {
+    expect(Object.keys(positions).length).toBe(4);
+    expect(Object.keys(positions).length).toStrictEqual(
+      Object.keys(matches).length,
+    );
+  });
+
+  test("positions", () => {
+    expect(positions).toStrictEqual([
+      { index: 0, left: [], right: [1, 2, 3] },
+      { index: 5, left: [2, 3, 4], right: [6, 7, 8] },
+      { index: 25, left: [22, 23, 24], right: [26, 27, 28] },
+      { index: 83, left: [80, 81, 82], right: [] },
+    ]);
+  });
+
+  test("matches", () => {
+    expect(matches).toStrictEqual([
       {
         index: "Element:",
-        leftIdx: [],
-        rightIdx: ["Hydrogen", "is", "the"],
+        left: [],
+        right: ["Hydrogen", "is", "the"],
       },
       {
         index: "element",
-        leftIdx: ["is", "the", "chemical"],
-        rightIdx: ["with", "the", "symbol"],
+        left: ["is", "the", "chemical"],
+        right: ["with", "the", "symbol"],
       },
       {
         index: "element",
-        leftIdx: ["is", "the", "lightest"],
-        rightIdx: ["in", "the", "periodic"],
+        left: ["is", "the", "lightest"],
+        right: ["in", "the", "periodic"],
       },
       {
         index: "elements.",
-        leftIdx: ["They", "are", "the"],
-        rightIdx: [],
+        left: ["They", "are", "the"],
+        right: [],
+      },
+    ]);
+  });
+
+  test("ranges", () => {
+    expect(ranges).toStrictEqual([
+      {
+        index: [0, 8],
+        left: [],
+        right: [
+          [9, 17],
+          [18, 20],
+          [21, 24],
+        ],
+      },
+      {
+        index: [34, 41],
+        left: [
+          [18, 20],
+          [21, 24],
+          [25, 33],
+        ],
+        right: [
+          [42, 46],
+          [47, 50],
+          [51, 57],
+        ],
+      },
+      {
+        index: [146, 153],
+        left: [
+          [130, 132],
+          [133, 136],
+          [137, 145],
+        ],
+        right: [
+          [154, 156],
+          [157, 160],
+          [161, 169],
+        ],
+      },
+      {
+        index: [519, 528],
+        left: [
+          [506, 510],
+          [511, 514],
+          [515, 518],
+        ],
+        right: [],
       },
     ]);
   });
 });
 
-describe("if the term doesn't exist, it returns", () => {
-  test("returns null", () => {
-    const pangram = "The quick brown fox jumps over the lazy dog.";
-    const kwic = new Kwic(pangram, "lion");
-    expect(kwic.locate()).toStrictEqual([]);
+describe("text or term is not truthy", () => {
+  test("term is not matched in the text", () => {
+    const text = "The quick brown fox jumps over the lazy dog.";
+    const kwic = new Kwic(text, "lion");
+    expect(kwic.getPositions()).toStrictEqual([]);
+    expect(kwic.getMatches()).toStrictEqual([]);
+    expect(kwic.getRanges()).toStrictEqual([]);
+  });
+
+  test("text is an empty string", () => {
+    const kwic = new Kwic("", "a");
+    expect(kwic.getPositions()).toStrictEqual([]);
+    expect(kwic.getMatches()).toStrictEqual([]);
+    expect(kwic.getRanges()).toStrictEqual([]);
+  });
+
+  test("term is an empty string", () => {
+    const kwic = new Kwic("here", "");
+    expect(kwic.getPositions()).toStrictEqual([]);
+    expect(kwic.getMatches()).toStrictEqual([]);
+    expect(kwic.getRanges()).toStrictEqual([]);
   });
 });

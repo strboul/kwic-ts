@@ -1,12 +1,13 @@
 import Utils from "./utils";
 import MathMethod from "./mathMethod";
 
-type winIdx = number[] | [];
+type TWinElem = number[] | [];
 
+// TODO use generic types
 export interface IWindow {
   index: number;
-  leftIdx: winIdx;
-  rightIdx: winIdx;
+  left: TWinElem;
+  right: TWinElem;
 }
 
 class Window {
@@ -22,12 +23,12 @@ class Window {
     this.min = min;
   }
 
-  getWindowIdx(id: number): IWindow {
+  getWindows(id: number): IWindow {
     this.id = id;
     this.validate();
-    const leftIdx = this.getLeftWindowIdx() as winIdx;
-    const rightIdx = this.getRightWindowIdx() as winIdx;
-    return { index: this.id, leftIdx, rightIdx };
+    const left = this.getLeftWindow() as TWinElem;
+    const right = this.getRightWindow() as TWinElem;
+    return { index: this.id, left, right };
   }
 
   private validate(): void {
@@ -42,24 +43,26 @@ class Window {
     }
   }
 
-  private getLeftWindowIdx(): winIdx | null {
+  private getLeftWindow(): TWinElem {
     const [windowLeft] = this.windows;
+    if (windowLeft === 0) return [];
+
     const buffer: number = this.calcBuffer(windowLeft, MathMethod.minus);
     const winId = this.calcWinId(buffer, this.min, MathMethod.isSmallerThan);
-    if (winId === null) {
-      return [];
-    }
+    if (winId === null) return [];
+
     const winSeq = Utils.seq(winId, this.id - 1);
     return winSeq;
   }
 
-  private getRightWindowIdx(): winIdx | null {
+  private getRightWindow(): TWinElem {
     const [, windowRight] = this.windows;
+    if (windowRight === 0) return [];
+
     const buffer: number = this.calcBuffer(windowRight, MathMethod.plus);
     const winId = this.calcWinId(buffer, this.max, MathMethod.isGreaterThan);
-    if (winId === null) {
-      return [];
-    }
+    if (winId === null) return [];
+
     const winSeq = Utils.seq(this.id + 1, winId);
     return winSeq;
   }
