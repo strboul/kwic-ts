@@ -17,7 +17,8 @@
   "rules": {
     "quotes": ["error", "double"],
     "max-len": ["error", { "code": 80 }],
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "import/prefer-default-export": "off"
   },
   "ignorePatterns": ["example/**"]
 }

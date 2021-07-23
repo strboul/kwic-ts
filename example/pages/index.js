@@ -28,11 +28,9 @@ const AppBody = ({ children }) => {
 
 const Title = () => {
   return (
-    <div>
-      <h1>
-        <span className="Title">KWIC | Keyword-in-contexts</span>
-      </h1>
-    </div>
+    <h1>
+      <span className="Title">KWIC | Keyword-in-contexts</span>
+    </h1>
   );
 };
 
@@ -56,6 +54,7 @@ const InputWindow = ({ id, windows, setWindows }) => {
       <input
         type="number"
         value={windows[id]}
+        min={0}
         onChange={(event) =>
           setWindows((prevState) => ({
             ...prevState,
@@ -87,6 +86,7 @@ const createHighlightArr = (ranges) => {
 
 const TextField = ({ textField, setTextField, ranges }) => {
   const highlight = createHighlightArr(ranges);
+
   return (
     <div className="TextField">
       <HighlightWithinTextarea
@@ -121,14 +121,12 @@ const Index = () => {
   const [windows, setWindows] = React.useState({ left: 3, right: 3 });
   const [term, setTerm] = React.useState(DEFAULT_TERM);
   const [textField, setTextField] = React.useState(DEFAULT_TEXTFIELD);
-
   const [ranges, setRanges] = React.useState([]);
 
-  // React.useEffect(() => {
-  //   const kwic = new Kwic(textField, term);
-  //   setRanges(kwic.locate().ranges)
-  // }, [textField, term]);
-  // console.log(ranges)
+  React.useEffect(() => {
+    const kwic = new Kwic(textField, term, Object.values(windows));
+    setRanges(kwic.getRanges());
+  }, [textField, term, windows]);
 
   return (
     <>

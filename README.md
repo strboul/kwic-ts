@@ -6,14 +6,15 @@
 [![CI](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml)
 <!-- badges: end -->
 
-*[WIP]*
-
 KWIC (Keyword-in-context) helps you see a match with adjacent words in order to
 convey more information about the context.
 
+This library does only one thing, *KWIC*, and aims to do it well.  All sorts of
+data/corpus cleaning and transformation are not in the purpose of this library.
+
 ## Usage
 
-```js
+```typescript
 import Kwic from "@strboul/kwic-ts";
 
 const text = `
@@ -23,51 +24,23 @@ You give me some whiskey, I'll sing you a song
 There's tinkers and tailors, shoemakers and all
 They're all shipped for sailors aboard the Black Ball
 `;
-const pattern = "[s|t]ailor";
-const kwic = new Kwic(text, pattern);
-kwic.locate();
-// {
-//   positions: [
-//     { index: 5, leftIdx: [2, 3, 4], rightIdx: [6, 7, 8] },
-//     { index: 24, leftIdx: [21, 22, 23], rightIdx: [25, 26, 27] },
-//     { index: 32, leftIdx: [29, 30, 31], rightIdx: [33, 34, 35] },
-//   ],
-//   matches: [
-//     {
-//       index: "sailor",
-//       leftIdx: ["a", "deep", "water"],
-//       rightIdx: ["just", "come", "from"],
-//     },
-//     {
-//       index: "tailors,",
-//       leftIdx: ["There's", "tinkers", "and"],
-//       rightIdx: ["shoemakers", "and", "all"],
-//     },
-//     {
-//       index: "sailors",
-//       leftIdx: ["all", "shipped", "for"],
-//       rightIdx: ["aboard", "the", "Black"],
-//     },
-//   ],
-// };
+const term = "[s|t]ailor";
+const kwic = new Kwic(text, term);
+kwic.positions();
+// ...
+kwic.matches();
+// ...
 ```
 
-## API
+### API
 
-`kwic-ts` uses [Method chaining](https://en.wikipedia.org/wiki/Method_chaining)
-for its API. Given the table below, `tokens` object and `positions()` method
-can be obtained from the class, `matches()` and `ranges()` methods can be
-retrieved from the `positions()` method object.
-
-| class or method                 |                |              | description        |
-|:-------------------------------:|:--------------:|:------------:|:------------------:|
-| `new Kwic(text, term, windows)` |                |              | new Kwic class     |
-|                                 | `.tokens`      |              | tokens object      |
-|                                 | `.positions()` |              | get word positions |
-|                                 |                | `.matches()` | get word matches   |
-|                                 |                | `.ranges()`  | get word ranges    |
-
-e.g. for the word matches, one should run `new Kwic(...).positions().ranges()`.
+| class                           | method         | description    |
+|:-------------------------------:|:--------------:|:--------------:|
+| `new Kwic(text, term, windows)` |                | new Kwic class |
+|                                 | `.tokens`      | tokens object  |
+|                                 | `.positions()` | get positions  |
+|                                 | `.matches()`   | get matches    |
+|                                 | `.ranges()`    | get ranges     |
 
 ## Installation
 
@@ -79,6 +52,8 @@ npm install @strboul/kwic-ts
 ## Development
 
 <details>
+
+### Running tests & debugging
 
 ```bash
 # run tests:
@@ -93,5 +68,10 @@ npm run test:debug-repl -- kwic.test.ts -t "token" # specify optional file and t
 npm run npm:link # create a symbolic link from globally-installed package-name to node_modules
 npm run npm:publish # publish to npm registry (with credentials)
 ```
+
+### General
+
++ The TS *types* starts with a `T` and follow the UpperCamelCase. Same rule
+  applies for the *interfaces* but they start with an `I`.
 
 </details>
