@@ -1,4 +1,4 @@
-import Kwic from "../kwic";
+import { Kwic } from "../kwic";
 
 describe("test Kwic class", () => {
   const text = `
@@ -15,14 +15,15 @@ Source: Wikipedia.org
 They are the elements.
 `;
   const term = "[e|E]lement";
-  const kwic = new Kwic(text, term);
+  const kwic = new Kwic(text, term, [3, 3]);
 
   test("initialized has the correct fields", () => {
     expect(Object.keys(kwic)).toStrictEqual([
       "text",
       "term",
       "windows",
-      "positions",
+      "windowLeft",
+      "windowRight",
     ]);
   });
 
@@ -39,10 +40,10 @@ They are the elements.
 
   test("positions", () => {
     expect(positions).toStrictEqual([
-      { index: 0, left: [], right: [1, 2, 3] },
-      { index: 5, left: [2, 3, 4], right: [6, 7, 8] },
-      { index: 25, left: [22, 23, 24], right: [26, 27, 28] },
-      { index: 83, left: [80, 81, 82], right: [] },
+      { index: 1, left: [], right: [3, 5, 7] },
+      { index: 11, left: [5, 7, 9], right: [13, 15, 17] },
+      { index: 51, left: [45, 47, 49], right: [53, 55, 57] },
+      { index: 167, left: [161, 163, 165], right: [] },
     ]);
   });
 
@@ -74,46 +75,46 @@ They are the elements.
   test("ranges", () => {
     expect(ranges).toStrictEqual([
       {
-        index: [0, 8],
+        index: [1, 9],
         left: [],
         right: [
-          [9, 17],
-          [18, 20],
-          [21, 24],
+          [10, 18],
+          [19, 21],
+          [22, 25],
         ],
       },
       {
-        index: [34, 41],
+        index: [35, 42],
         left: [
-          [18, 20],
-          [21, 24],
-          [25, 33],
+          [19, 21],
+          [22, 25],
+          [26, 34],
         ],
         right: [
-          [42, 46],
-          [47, 50],
-          [51, 57],
+          [43, 47],
+          [48, 51],
+          [52, 58],
         ],
       },
       {
-        index: [146, 153],
+        index: [147, 154],
         left: [
-          [130, 132],
-          [133, 136],
-          [137, 145],
+          [131, 133],
+          [134, 137],
+          [138, 146],
         ],
         right: [
-          [154, 156],
-          [157, 160],
-          [161, 169],
+          [155, 157],
+          [158, 161],
+          [162, 170],
         ],
       },
       {
-        index: [519, 528],
+        index: [522, 531],
         left: [
-          [506, 510],
-          [511, 514],
-          [515, 518],
+          [509, 513],
+          [514, 517],
+          [518, 521],
         ],
         right: [],
       },
@@ -124,21 +125,28 @@ They are the elements.
 describe("text or term is not truthy", () => {
   test("term is not matched in the text", () => {
     const text = "The quick brown fox jumps over the lazy dog.";
-    const kwic = new Kwic(text, "lion");
+    const kwic = new Kwic(text, "lion", [3, 3]);
     expect(kwic.getPositions()).toStrictEqual([]);
     expect(kwic.getMatches()).toStrictEqual([]);
     expect(kwic.getRanges()).toStrictEqual([]);
   });
 
   test("text is an empty string", () => {
-    const kwic = new Kwic("", "a");
+    const kwic = new Kwic("", "a", [3, 3]);
     expect(kwic.getPositions()).toStrictEqual([]);
     expect(kwic.getMatches()).toStrictEqual([]);
     expect(kwic.getRanges()).toStrictEqual([]);
   });
 
   test("term is an empty string", () => {
-    const kwic = new Kwic("here", "");
+    const kwic = new Kwic("here", "", [3, 3]);
+    expect(kwic.getPositions()).toStrictEqual([]);
+    expect(kwic.getMatches()).toStrictEqual([]);
+    expect(kwic.getRanges()).toStrictEqual([]);
+  });
+
+  test("term is an invalid regular expression", () => {
+    const kwic = new Kwic("text", "[", [3, 3]);
     expect(kwic.getPositions()).toStrictEqual([]);
     expect(kwic.getMatches()).toStrictEqual([]);
     expect(kwic.getRanges()).toStrictEqual([]);

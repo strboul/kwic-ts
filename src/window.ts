@@ -1,89 +1,87 @@
-import Utils from "./utils";
-import MathMethod from "./mathMethod";
+import { Utils } from "./utils";
+import { TTokens } from "./token";
+import { IBaseMethods } from "./IBaseMethods";
 
 type TWinElem = number[] | [];
 
 // TODO use generic types
-export interface IWindow {
+export interface IWindow extends IBaseMethods {
   index: number;
   left: TWinElem;
   right: TWinElem;
 }
 
 class Window {
-  id!: number;
+  max: number;
+
+  left!: TWinElem;
+
+  right!: TWinElem;
 
   constructor(
-    public windows: number[],
-    public max: number,
-    public min: number = 0,
+    public windowLeft: number,
+    public windowRight: number,
+    public tokens: TTokens,
+    public index: number,
   ) {
-    this.windows = windows;
-    this.max = max;
-    this.min = min;
+    this.windowLeft = windowLeft;
+    this.windowRight = windowRight;
+    this.tokens = tokens;
+    this.index = index;
+    this.max = this.tokens.length;
+    this.validate();
   }
 
-  getWindows(id: number): IWindow {
-    this.id = id;
-    this.validate();
-    const left = this.getLeftWindow() as TWinElem;
-    const right = this.getRightWindow() as TWinElem;
-    return { index: this.id, left, right };
+  get windows(): IWindow {
+    this.setLeftWindow();
+    this.setRightWindow();
+    const { index, left, right } = this;
+    return { index, left, right };
   }
 
   private validate(): void {
-    if (this.min < 0) {
-      throw new RangeError("'min' cannot be smaller than 0");
+    if (this.index > this.max) {
+      throw new RangeError("'index' cannot be higher than tokens length");
     }
-    if (this.id > this.max || this.id < this.min) {
-      throw new RangeError("'id' must be between 'min' and 'max'");
+    if (this.index < 0) {
+      throw new RangeError("'index' cannot be lower than 0");
     }
-    if (this.windows.some((win) => win < 0)) {
-      throw new RangeError("'windows' values cannot be smaller than 0");
+    if (this.windowLeft < 0 || this.windowRight < 0) {
+      throw new RangeError("window values cannot be smaller than 0");
     }
   }
 
-  private getLeftWindow(): TWinElem {
-    const [windowLeft] = this.windows;
-    if (windowLeft === 0) return [];
-
-    const buffer: number = this.calcBuffer(windowLeft, MathMethod.minus);
-    const winId = this.calcWinId(buffer, this.min, MathMethod.isSmallerThan);
-    if (winId === null) return [];
-
-    const winSeq = Utils.seq(winId, this.id - 1);
-    return winSeq;
-  }
-
-  private getRightWindow(): TWinElem {
-    const [, windowRight] = this.windows;
-    if (windowRight === 0) return [];
-
-    const buffer: number = this.calcBuffer(windowRight, MathMethod.plus);
-    const winId = this.calcWinId(buffer, this.max, MathMethod.isGreaterThan);
-    if (winId === null) return [];
-
-    const winSeq = Utils.seq(this.id + 1, winId);
-    return winSeq;
-  }
-
-  private calcBuffer(window: number, operator: Function) {
-    return operator(this.id, window);
-  }
-
-  private calcWinId(
-    buffer: number,
-    boundary: number,
-    operator: Function,
-  ): number | null {
-    if (this.id === boundary) {
-      return null;
+  private setLeftWindow(): void {
+    let pivot: number = this.index - 1;
+    let left: TWinElem = [];
+    while (left.length < this.windowLeft && pivot >= 0) {
+      const isEmptyToken: boolean = this.isEmptyToken(pivot);
+      if (!isEmptyToken) {
+        left = [pivot, ...left];
+      }
+      pivot -= 1;
     }
-    if (operator(buffer, boundary)) {
-      return boundary;
+    this.left = left;
+  }
+
+  private setRightWindow(): void {
+    let pivot: number = this.index + 1;
+    let right: TWinElem = [];
+    while (right.length < this.windowRight && pivot < this.max) {
+      const isEmptyToken: boolean = this.isEmptyToken(pivot);
+      if (!isEmptyToken) {
+        right = [...right, pivot];
+      }
+      pivot += 1;
     }
-    return buffer;
+    this.right = right;
+  }
+
+  private isEmptyToken(pivot: number): boolean {
+    const token = this.tokens[pivot];
+    const isEmpty: boolean = Utils.isStringEmpty(token);
+    return isEmpty;
   }
 }
 
-export default Window;
+export { Window };

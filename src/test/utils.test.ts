@@ -1,4 +1,4 @@
-import Utils from "../utils";
+import { Utils } from "../utils";
 
 describe("test seq", () => {
   test("when from < to", () => {
@@ -21,5 +21,25 @@ describe("test sum", () => {
 
   test("empty array input returns zero", () => {
     expect(Utils.sum([])).toEqual(0);
+  });
+});
+
+describe("test isObjectEmpty", () => {
+  test("object is empty", () => {
+    expect(Utils.isObjectEmpty([])).toBe(true);
+  });
+});
+
+describe("test isStringEmpty", () => {
+  test("string is zero length", () => {
+    expect(Utils.isStringEmpty("")).toBe(true);
+  });
+
+  test("string has spaces", () => {
+    expect(Utils.isStringEmpty("   ")).toBe(true);
+  });
+
+  test("string is with a character", () => {
+    expect(Utils.isStringEmpty("  a")).toBe(false);
   });
 });

@@ -8,24 +8,23 @@ class Token {
   }
 
   get tokens(): TTokens {
-    this.removeExtraSpacesFromText();
+    this.joinNewlines();
     this.tokenizeText();
     this.removeEmptyTokens();
     return this.tokensArr;
   }
 
-  private removeEmptyTokens(): void {
-    this.tokensArr = this.tokensArr.filter(Boolean);
+  private joinNewlines(): void {
+    this.text = this.text.replace(/\n/g, " ");
   }
 
   private tokenizeText(): void {
-    this.tokensArr = this.text.split(" ");
+    this.tokensArr = this.text.split(/(\s+)/);
   }
 
-  private removeExtraSpacesFromText(): void {
-    this.text = this.text.replace(/\n/g, " ");
-    this.text = this.text.replace(/\s+/g, " ");
+  private removeEmptyTokens(): void {
+    this.tokensArr = this.tokensArr.filter(Boolean);
   }
 }
 
-export default Token;
+export { Token };

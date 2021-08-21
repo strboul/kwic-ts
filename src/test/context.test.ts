@@ -1,45 +1,66 @@
-import Position from "../position";
-import Match from "../match";
+import { Context } from "../context";
 
-describe("test Position and Match", () => {
+describe("test Context", () => {
   test("get positions and matches", () => {
     const tokens = [
+      "   ",
       "99",
+      " ",
       "bottles",
+      " ",
       "of",
+      "     ",
       "beer",
+      " ",
       "on",
+      " ",
       "the",
+      " ",
       "wall,",
+      "   ",
       "99",
+      " ",
       "bottles",
+      " ",
       "of",
+      " ",
       "beer.",
+      "     ",
       "Take",
+      " ",
       "one",
+      " ",
       "down,",
+      " ",
       "pass",
+      " ",
       "it",
+      "   ",
       "around,",
+      "   ",
       "98",
+      "   ",
       "bottles",
+      "   ",
       "of",
+      "   ",
       "beer",
+      " ",
       "on",
+      "     ",
       "the",
+      "  ",
       "wall...",
     ];
 
-    const { positions } = new Position(tokens, "bottles", [3, 3]);
+    const { positions, matches } = new Context(tokens, "bottles", 3, 3);
 
     const expectedPositions = [
-      { index: 1, left: [0], right: [2, 3, 4] },
-      { index: 8, left: [5, 6, 7], right: [9, 10, 11] },
-      { index: 18, left: [15, 16, 17], right: [19, 20, 21] },
+      { index: 3, left: [1], right: [5, 7, 9] },
+      { index: 17, left: [11, 13, 15], right: [19, 21, 23] },
+      { index: 37, left: [31, 33, 35], right: [39, 41, 43] },
     ];
     expect(positions).toStrictEqual(expectedPositions);
-
-    const { matches } = new Match(tokens, positions);
 
     const expectedMatches = [
       {
@@ -64,39 +85,59 @@ describe("test Position and Match", () => {
   test("term is a regex pattern", () => {
     const tokens = [
       "One",
+      "   ",
       "night",
+      "  ",
       "when",
+      " ",
       "I",
+      " ",
       "was",
+      " ",
       "frisky.",
+      "  ",
       "Over",
+      " ",
       "some",
+      " ",
       "potent",
+      " ",
       "whisky.",
+      " ",
       "Like",
+      " ",
       "waves",
+      "    ",
       "of",
+      " ",
       "the",
+      " ",
       "Bay",
+      "  ",
       "of",
+      " ",
       "Biscay.",
+      " ",
       "I",
+      " ",
       "began",
+      " ",
       "to",
+      "   ",
       "tumble",
+      " ",
       "and",
+      "     ",
       "roar.",
     ];
 
-    const { positions } = new Position(tokens, "[fri|whi]sky", [3, 3]);
+    const { positions, matches } = new Context(tokens, "[fri|whi]sky", 3, 3);
 
     const expectedPositions = [
-      { index: 5, left: [2, 3, 4], right: [6, 7, 8] },
-      { index: 9, left: [6, 7, 8], right: [10, 11, 12] },
+      { index: 10, left: [4, 6, 8], right: [12, 14, 16] },
+      { index: 18, left: [12, 14, 16], right: [20, 22, 24] },
     ];
     expect(positions).toStrictEqual(expectedPositions);
-
-    const { matches } = new Match(tokens, positions);
 
     const expectedMatches = [
       {
@@ -114,17 +155,27 @@ describe("test Position and Match", () => {
   });
 
   test("test the corners - when the term first or last token", () => {
-    const tokens = ["Fox", "said:", "I", "am", "a", "fox."];
+    const tokens = [
+      "Fox",
+      " ",
+      "said:",
+      "  ",
+      "I",
+      " ",
+      "am",
+      " ",
+      "a",
+      "  ",
+      "fox.",
+    ];
 
-    const { positions } = new Position(tokens, "[F|f]ox", [3, 3]);
+    const { positions, matches } = new Context(tokens, "[F|f]ox", 3, 3);
 
     const expectedPositions = [
-      { index: 0, left: [], right: [1, 2, 3] },
-      { index: 5, left: [2, 3, 4], right: [] },
+      { index: 0, left: [], right: [2, 4, 6] },
+      { index: 10, left: [4, 6, 8], right: [] },
     ];
     expect(positions).toStrictEqual(expectedPositions);
-
-    const { matches } = new Match(tokens, positions);
 
     const expectedMatches = [
       { index: "Fox", left: [], right: ["said:", "I", "am"] },

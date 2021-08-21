@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-    # if a file from the example folder is modified, trigger the deployment
-    paths:
-      - "example/**"
 
 jobs:
   build-and-deploy:

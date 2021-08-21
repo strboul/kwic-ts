@@ -1,20 +1,63 @@
-import Token from "../token";
+import { Token } from "../token";
 
 describe("test Token", () => {
-  const text = "\nThe              quick brown fox jumps over the lazy dog.\n";
+  const text = `   99 bottles of     beer on the wall,
+  99 bottles of beer.
+    Take one down, pass it
+  around,   98   bottles   of
+  beer on     the  wall...`;
   const { tokens } = new Token(text);
 
   test("tokenize text", () => {
     expect(tokens).toStrictEqual([
-      "The",
-      "quick",
-      "brown",
-      "fox",
-      "jumps",
-      "over",
+      "   ",
+      "99",
+      " ",
+      "bottles",
+      " ",
+      "of",
+      "     ",
+      "beer",
+      " ",
+      "on",
+      " ",
       "the",
-      "lazy",
-      "dog.",
+      " ",
+      "wall,",
+      "   ",
+      "99",
+      " ",
+      "bottles",
+      " ",
+      "of",
+      " ",
+      "beer.",
+      "     ",
+      "Take",
+      " ",
+      "one",
+      " ",
+      "down,",
+      " ",
+      "pass",
+      " ",
+      "it",
+      "   ",
+      "around,",
+      "   ",
+      "98",
+      "   ",
+      "bottles",
+      "   ",
+      "of",
+      "   ",
+      "beer",
+      " ",
+      "on",
+      "     ",
+      "the",
+      "  ",
+      "wall...",
     ]);
   });
 });
