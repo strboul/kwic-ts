@@ -5,6 +5,7 @@
 <!-- badges: start -->
 [![CI](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml)
 [![deploy-gh-pages](https://github.com/strboul/kwic-ts/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/deploy-gh-pages.yml)
+[![npm](https://img.shields.io/npm/v/@strboul/kwic-ts?color=%23EA2039)](https://www.npmjs.com/package/@strboul/kwic-ts)
 <!-- badges: end -->
 
 KWIC (Keyword-in-context) helps you see a match with adjacent words in order to
@@ -62,8 +63,7 @@ $ npm install @strboul/kwic-ts
 #### CDN
 
 ```html
-# TODO
-<script src="https://unpkg.com/@strboul/kwic-ts@<version>/dist/kwic.esm.js"></script>
+<script src="https://unpkg.com/@strboul/kwic-ts/dist/kwic.js"></script>
 ```
 
 ## Development

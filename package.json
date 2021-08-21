@@ -1,9 +1,15 @@
 {
   "name": "@strboul/kwic-ts",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Locate keywords-in-contexts",
-  "author": "Metin Yazici",
-  "main": "dist/kwic.js",
+  "license": "MIT",
+  "keywords": [
+    "typescript",
+    "kwic ",
+    "text-processing ",
+    "permuted-index",
+    "ptx"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/strboul/kwic-ts.git"
@@ -12,7 +18,13 @@
     "url": "https://github.com/strboul/kwic-ts/issues"
   },
   "homepage": "https://github.com/strboul/kwic-ts#readme",
-  "license": "MIT",
+  "author": "Metin Yazici",
+  "main": "dist/kwic.js",
+  "types": "dist/kwic.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.ts"
+  ],
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
@@ -23,8 +35,10 @@
     "formatter": "prettier --list-different '{,!(build|coverage|dist|example)/**/}*.{css,js,jsx,ts}'",
     "coverage": "jest --coverage",
     "checkDependencyUpdates": "ncu -u --errorLevel 2",
+    "npm:bumpVersion": "npm version $1",
     "npm:link": "npm link '@strboul/kwic-ts'",
-    "npm:publish": "npm login && npm publish --access public"
+    "npm:publish": "npm login && npm publish --access public",
+    "npm:view": "npm view"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
