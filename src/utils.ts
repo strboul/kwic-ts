@@ -21,6 +21,14 @@ class Utils {
     if (arr.length === 0) return 0;
     return arr.reduce((prev: number, curr: number) => prev + curr);
   }
+
+  public static isObjectEmpty(obj: any): boolean {
+    return obj.length === 0;
+  }
+
+  public static isStringEmpty = (str: string): boolean => {
+    return /^\s*$/.test(str);
+  };
 }
 
-export default Utils;
+export { Utils };

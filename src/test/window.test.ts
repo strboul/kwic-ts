@@ -1,135 +1,114 @@
-import Window from "../window";
+import { Window } from "../window";
+
+const tokens = ["a", "b", "", "c", "d", "", "", "e", "f", "", "", "g"];
 
 describe("test Window", () => {
-  const window = new Window([3, 3], 25);
-
   test("id in the middle", () => {
-    expect(window.getWindows(5)).toEqual({
-      index: 5,
-      left: [2, 3, 4],
-      right: [6, 7, 8],
+    const { windows } = new Window(3, 3, tokens, 3);
+    expect(windows).toStrictEqual({
+      index: 3,
+      left: [0, 1],
+      right: [4, 7, 8],
     });
   });
 
   test("id close to the left", () => {
-    expect(window.getWindows(1)).toEqual({
+    const { windows } = new Window(3, 3, tokens, 1);
+    expect(windows).toStrictEqual({
       index: 1,
       left: [0],
-      right: [2, 3, 4],
+      right: [3, 4, 7],
     });
   });
 
   test("id close to the right", () => {
-    expect(window.getWindows(24)).toEqual({
-      index: 24,
-      left: [21, 22, 23],
-      right: [25],
+    const { windows } = new Window(3, 3, tokens, 8);
+    expect(windows).toStrictEqual({
+      index: 8,
+      left: [3, 4, 7],
+      right: [11],
     });
   });
 
   test("id equals to the min", () => {
-    expect(window.getWindows(0)).toEqual({
-      index: 0,
-      left: [],
-      right: [1, 2, 3],
-    });
+    const { windows } = new Window(3, 3, tokens, 0);
+    expect(windows).toStrictEqual({ index: 0, left: [], right: [1, 3, 4] });
   });
 
   test("id equals to the max", () => {
-    expect(window.getWindows(25)).toEqual({
-      index: 25,
-      left: [22, 23, 24],
-      right: [],
-    });
+    const { windows } = new Window(3, 3, tokens, 11);
+    expect(windows).toStrictEqual({ index: 11, left: [4, 7, 8], right: [] });
   });
 });
 
 describe("test Window with unbalanced windows", () => {
-  const window = new Window([1, 5], 10);
-
   test("id in the middle", () => {
-    expect(window.getWindows(4)).toEqual({
-      index: 4,
-      left: [3],
-      right: [5, 6, 7, 8, 9],
+    const { windows } = new Window(1, 5, tokens, 3);
+    expect(windows).toStrictEqual({
+      index: 3,
+      left: [1],
+      right: [4, 7, 8, 11],
     });
   });
 
   test("id close to the left", () => {
-    expect(window.getWindows(2)).toEqual({
-      index: 2,
-      left: [1],
-      right: [3, 4, 5, 6, 7],
-    });
+    const { windows } = new Window(3, 3, tokens, 1);
+    expect(windows).toStrictEqual({ index: 1, left: [0], right: [3, 4, 7] });
   });
 
   test("id close to the right", () => {
-    expect(window.getWindows(7)).toEqual({
-      index: 7,
-      left: [6],
-      right: [8, 9, 10],
+    const { windows } = new Window(3, 3, tokens, 8);
+    expect(windows).toStrictEqual({
+      index: 8,
+      left: [3, 4, 7],
+      right: [11],
     });
   });
 
   test("id equals to the min", () => {
-    expect(window.getWindows(0)).toEqual({
-      index: 0,
-      left: [],
-      right: [1, 2, 3, 4, 5],
-    });
+    const { windows } = new Window(3, 3, tokens, 0);
+    expect(windows).toStrictEqual({ index: 0, left: [], right: [1, 3, 4] });
   });
 
   test("id equals to the max", () => {
-    expect(window.getWindows(10)).toEqual({
-      index: 10,
-      left: [9],
-      right: [],
-    });
+    const { windows } = new Window(3, 3, tokens, 11);
+    expect(windows).toStrictEqual({ index: 11, left: [4, 7, 8], right: [] });
   });
 });
 
 describe("test Window with zero values", () => {
-  test("when left is zero", () => {
-    expect(new Window([0, 3], 10).getWindows(5)).toStrictEqual({
-      index: 5,
-      left: [],
-      right: [6, 7, 8],
-    });
+  test("when left window is zero", () => {
+    const { windows } = new Window(0, 3, tokens, 1);
+    expect(windows).toStrictEqual({ index: 1, left: [], right: [3, 4, 7] });
   });
 
-  test("when right is zero", () => {
-    expect(new Window([3, 0], 10).getWindows(5)).toStrictEqual({
-      index: 5,
-      left: [2, 3, 4],
-      right: [],
-    });
+  test("when right window is zero", () => {
+    const { windows } = new Window(3, 0, tokens, 1);
+    expect(windows).toStrictEqual({ index: 1, left: [0], right: [] });
   });
 
-  test("when both is zero", () => {
-    expect(new Window([0, 0], 10).getWindows(5)).toStrictEqual({
-      index: 5,
-      left: [],
-      right: [],
-    });
+  test("when both window is zero", () => {
+    const { windows } = new Window(0, 0, tokens, 1);
+    expect(windows).toStrictEqual({ index: 1, left: [], right: [] });
   });
 });
 
 describe("input parameter validations", () => {
   test("min range", () => {
-    expect(() => new Window([3, 3], 10, -1).getWindows(0)).toThrowError(
-      "'min' cannot be smaller than 0",
+    expect(() => new Window(3, 3, [], 1).windows).toThrowError(
+      "'index' cannot be higher than tokens length",
     );
   });
 
   test("id range", () => {
-    expect(() => new Window([3, 3], 10).getWindows(25)).toThrowError(
-      "'id' must be between 'min' and 'max'",
+    expect(() => new Window(3, 3, [], -1).windows).toThrowError(
+      "'index' cannot be lower than 0",
     );
   });
 
   test("window range", () => {
-    expect(() => new Window([-1, 3], 10).getWindows(0)).toThrowError(
-      "'windows' values cannot be smaller than 0",
+    expect(() => new Window(-1, 3, [], 0).windows).toThrowError(
+      "window values cannot be smaller than 0",
     );
   });
 });

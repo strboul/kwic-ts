@@ -4,18 +4,16 @@
 
 <!-- badges: start -->
 [![CI](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml)
+[![deploy-gh-pages](https://github.com/strboul/kwic-ts/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/deploy-gh-pages.yml)
 <!-- badges: end -->
 
 KWIC (Keyword-in-context) helps you see a match with adjacent words in order to
 convey more information about the context.
 
-This library does only one thing, *KWIC*, and aims to do it well.  All sorts of
-data/corpus cleaning and transformation are not in the purpose of this library.
-
 ## Usage
 
 ```typescript
-import Kwic from "@strboul/kwic-ts";
+import { Kwic } from "@strboul/kwic-ts";
 
 const text = `
 I'm a deep water sailor just come from Hong Kong
@@ -25,28 +23,47 @@ There's tinkers and tailors, shoemakers and all
 They're all shipped for sailors aboard the Black Ball
 `;
 const term = "[s|t]ailor";
-const kwic = new Kwic(text, term);
-kwic.positions();
-// ...
-kwic.matches();
-// ...
+const kwic = new Kwic(text, term, [3, 3]);
+kwic.getMatches();
+// [
+//   {
+//     index: 'sailor',
+//     left: [ 'a', 'deep', 'water' ],
+//     right: [ 'just', 'come', 'from' ]
+//   },
+//   {
+//     index: 'tailors,',
+//     left: [ "There's", 'tinkers', 'and' ],
+//     right: [ 'shoemakers', 'and', 'all' ]
+//   },
+//   {
+//     index: 'sailors',
+//     left: [ 'all', 'shipped', 'for' ],
+//     right: [ 'aboard', 'the', 'Black' ]
+//   }
+// ]
 ```
 
 ### API
 
-| class                           | method         | description    |
-|:-------------------------------:|:--------------:|:--------------:|
-| `new Kwic(text, term, windows)` |                | new Kwic class |
-|                                 | `.tokens`      | tokens object  |
-|                                 | `.positions()` | get positions  |
-|                                 | `.matches()`   | get matches    |
-|                                 | `.ranges()`    | get ranges     |
+| class                           | method            | description                 |
+|:-------------------------------:|:-----------------:|:---------------------------:|
+| `new Kwic(text, term, windows)` |                   | new Kwic class              |
+|                                 | `.getPositions()` | get word positions          |
+|                                 | `.getMatches()`   | get word matches            |
+|                                 | `.getRanges()`    | get matched word ranges     |
 
 ## Installation
 
 ```bash
+$ npm install @strboul/kwic-ts
+```
+
+#### CDN
+
+```html
 # TODO
-npm install @strboul/kwic-ts
+<script src="https://unpkg.com/@strboul/kwic-ts@<version>/dist/kwic.esm.js"></script>
 ```
 
 ## Development
