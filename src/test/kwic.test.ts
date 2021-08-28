@@ -1,4 +1,4 @@
-import { Kwic } from "../kwic";
+import { Kwic } from "@src/kwic";
 
 describe("test Kwic class", () => {
   const text = `

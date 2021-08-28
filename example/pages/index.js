@@ -56,7 +56,7 @@ const InputBody = ({ children }) => {
 const InputTerm = ({ term, setTerm }) => {
   return (
     <div className="Input">
-      <label>term</label>
+      <label className="Label">term</label>
       <input
         type="text"
         value={term}
@@ -69,7 +69,7 @@ const InputTerm = ({ term, setTerm }) => {
 const InputWindow = ({ id, windows, setWindows }) => {
   return (
     <div className="Input">
-      <label>window {id}</label>
+      <label className="Label">window {id}</label>
       <input
         type="number"
         value={windows[id]}
@@ -107,30 +107,103 @@ const TextField = ({ textField, setTextField, ranges }) => {
   const highlight = createHighlightArr(ranges);
 
   return (
-    <div className="TextField">
-      <HighlightWithinTextarea
-        value={textField}
-        highlight={highlight}
-        rows="20"
-        containerStyle={{ width: "100%" }}
-        style={{ width: "100%", borderStyle: "none" }}
-        onChange={(event) => setTextField(event.target.value)}
-      />
+    <div className="FieldBlock">
+      <label className="Label">text</label>
+      <div className="TextField">
+        <HighlightWithinTextarea
+          value={textField}
+          highlight={highlight}
+          rows="20"
+          containerStyle={{ width: "100%" }}
+          style={{ width: "100%", borderStyle: "none" }}
+          onChange={(event) => setTextField(event.target.value)}
+        />
+      </div>
+    </div>
+  );
+};
+
+const Concordance = ({ matches }) => {
+  const Spacing = () => {
+    return <span style={{ marginLeft: "1em" }} />;
+  };
+
+  const StyleIndex = ({ obj }) => {
+    return (
+      <td style={{ textAlign: "centre" }}>
+        <mark className="red">
+          <b>{obj}</b>
+        </mark>
+        <Spacing />
+      </td>
+    );
+  };
+
+  const StyleSides = ({ arr, align }) => {
+    return (
+      <td style={{ textAlign: align }}>
+        {arr.map((a) => (
+          <span key={a}>
+            <mark className="blue">{a}</mark>
+            <Spacing />
+          </span>
+        ))}
+      </td>
+    );
+  };
+
+  const LineNumber = ({ index }) => {
+    return (
+      <td>
+        <span
+          style={{
+            fontSize: "0.75em",
+            marginRight: "2em",
+            padding: "0.4em",
+            color: "darkgray",
+          }}
+        >
+          {index}
+        </span>
+      </td>
+    );
+  };
+
+  return (
+    <div className="FieldBlock">
+      <label className="Label">concordance</label>
+      <div className="TextField">
+        <table>
+          <tbody>
+            {matches.map((match, index) => (
+              <tr key={index}>
+                <LineNumber index={index} />
+                <StyleSides arr={match.left} align="right" />
+                <StyleIndex obj={match.index} />
+                <StyleSides arr={match.right} align="left" />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
 const Index = () => {
-  // TODO use useReducer?
+  // TODO useReducer?
   const [windows, setWindows] = React.useState(DEFAULT_WINDOWS);
   const [term, setTerm] = React.useState(DEFAULT_TERM);
   const [textField, setTextField] = React.useState(DEFAULT_TEXT);
   const [ranges, setRanges] = React.useState([]);
+  const [matches, setMatches] = React.useState([]);
 
   React.useEffect(() => {
     const kwic = new Kwic(textField, term, Object.values(windows));
     const ranges = kwic.getRanges();
     setRanges(ranges);
+    const matches = kwic.getMatches();
+    setMatches(matches);
   }, [textField, term, windows]);
 
   return (
@@ -149,6 +222,7 @@ const Index = () => {
           setTextField={setTextField}
           ranges={ranges}
         />
+        <Concordance matches={matches} />
       </AppBody>
     </>
   );

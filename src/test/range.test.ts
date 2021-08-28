@@ -1,5 +1,5 @@
-import { Range } from "../range";
-import { getRangeText } from "./helpers";
+import { Range } from "@src/range";
+import { getRangeText } from "@src/test/helpers";
 
 describe("test Range when from < to", () => {
   const tokens = [

@@ -28,6 +28,7 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc --watch",
+    "repl": "ts-node -r tsconfig-paths/register",
     "test": "jest",
     "test:debug-devtools": "node --inspect $(npm bin)/jest --no-cache --runInBand",
     "test:debug-repl": "node inspect $(npm bin)/jest --runInBand",
@@ -35,30 +36,37 @@
     "formatter": "prettier --list-different '{,!(build|coverage|dist|example)/**/}*.{css,js,jsx,ts}'",
     "coverage": "jest --coverage",
     "checkDependencyUpdates": "ncu -u --errorLevel 2",
+    "testAll": "npm run build && npm run test && npm run lint && npm run formatter",
     "npm:bumpVersion": "npm version $1",
     "npm:link": "npm link '@strboul/kwic-ts'",
     "npm:publish": "npm login && npm publish --access public",
+    "npm:release": "npm run testAll && npm run npm:publish",
     "npm:view": "npm view"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
-    "@typescript-eslint/eslint-plugin": "^4.29.2",
-    "@typescript-eslint/parser": "^4.29.2",
-    "babel-jest": "^27.0.6",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "babel-jest": "^27.1.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-import": "^2.24.1",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-prettier": "^3.4.1",
-    "jest": "^27.0.6",
+    "jest": "^27.1.0",
     "npm-check-updates": "^11.8.3",
     "prettier": "2.3.2",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
-    "typescript": "^4.3.5"
+    "tsconfig-paths": "^3.11.0",
+    "typescript": "^4.4.2"
   },
   "jest": {
     "preset": "ts-jest",
+    "moduleNameMapper": {
+      "src/(.*)": "<rootDir>/src/$1"
+    },
     "transform": {
       "^.+\\.ts?$": "ts-jest"
     },

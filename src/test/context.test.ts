@@ -1,4 +1,4 @@
-import { Context } from "../context";
+import { Context } from "@src/context";
 
 describe("test Context", () => {
   test("get positions and matches", () => {
