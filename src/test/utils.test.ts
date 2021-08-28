@@ -1,4 +1,4 @@
-import { Utils } from "../utils";
+import { Utils } from "@src/utils";
 
 describe("test seq", () => {
   test("when from < to", () => {

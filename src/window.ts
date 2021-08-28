@@ -1,22 +1,16 @@
-import { Utils } from "./utils";
-import { TTokens } from "./token";
-import { IBaseMethods } from "./IBaseMethods";
+import { Utils } from "@src/utils";
+import { TTokens } from "@src/token";
+import { IBaseElement } from "@src/IBase";
 
-type TWinElem = number[] | [];
-
-// TODO use generic types
-export interface IWindow extends IBaseMethods {
-  index: number;
-  left: TWinElem;
-  right: TWinElem;
-}
+export type TWindowElement = number[] | [];
+export type TWindow = IBaseElement<number, TWindowElement>;
 
 class Window {
   max: number;
 
-  left!: TWinElem;
+  left!: TWindowElement;
 
-  right!: TWinElem;
+  right!: TWindowElement;
 
   constructor(
     public windowLeft: number,
@@ -29,17 +23,17 @@ class Window {
     this.tokens = tokens;
     this.index = index;
     this.max = this.tokens.length;
-    this.validate();
+    this.validateInput();
   }
 
-  get windows(): IWindow {
+  get windows(): TWindow {
     this.setLeftWindow();
     this.setRightWindow();
     const { index, left, right } = this;
     return { index, left, right };
   }
 
-  private validate(): void {
+  private validateInput(): void {
     if (this.index > this.max) {
       throw new RangeError("'index' cannot be higher than tokens length");
     }
@@ -53,7 +47,7 @@ class Window {
 
   private setLeftWindow(): void {
     let pivot: number = this.index - 1;
-    let left: TWinElem = [];
+    let left: TWindowElement = [];
     while (left.length < this.windowLeft && pivot >= 0) {
       const isEmptyToken: boolean = this.isEmptyToken(pivot);
       if (!isEmptyToken) {
@@ -66,7 +60,7 @@ class Window {
 
   private setRightWindow(): void {
     let pivot: number = this.index + 1;
-    let right: TWinElem = [];
+    let right: TWindowElement = [];
     while (right.length < this.windowRight && pivot < this.max) {
       const isEmptyToken: boolean = this.isEmptyToken(pivot);
       if (!isEmptyToken) {

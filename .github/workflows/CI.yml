@@ -35,8 +35,9 @@ jobs:
       - name: Test and coverage
         run: npm run coverage
 
+      - name: Check linter
+        run: npm run lint
+
       - name: Check formatter
         run: npm run formatter
 
-      - name: Check linter
-        run: npm run lint

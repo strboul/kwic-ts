@@ -1,4 +1,4 @@
-import { Window } from "../window";
+import { Window } from "@src/window";
 
 const tokens = ["a", "b", "", "c", "d", "", "", "e", "f", "", "", "g"];
 

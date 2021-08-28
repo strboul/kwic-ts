@@ -1,12 +1,7 @@
-import { Utils } from "./utils";
-import { IWindow } from "./window";
-import { TTokens } from "./token";
-
-/** For array/objects to receive methods e.g. reduce
- */
-interface IBaseMethods {
-  [x: string]: any;
-}
+import { Utils } from "@src/utils";
+import { TPositions, TPositionsObj } from "@src/context";
+import { TTokens } from "@src/token";
+import { IBaseOutput, IBaseElement } from "@src/IBase";
 
 /** Interface fakes a tuple that it cannot have more than 2 elements
  */
@@ -16,20 +11,10 @@ interface IRangesTuple {
   2?: never;
 }
 
-interface IOutput<T> extends IBaseMethods {
-  [index: number]: T;
-}
+type TRangesTupleGroup = IBaseOutput<IRangesTuple>;
+type TRangesObjRange = IBaseElement<IRangesTuple, TRangesTupleGroup>;
 
-type TPositions = IOutput<IWindow>;
-type TRangesTupleGroup = IOutput<IRangesTuple>;
-
-interface IRangesObjRange {
-  index: IRangesTuple;
-  left: TRangesTupleGroup;
-  right: TRangesTupleGroup;
-}
-
-type TRanges = IOutput<IRangesObjRange>;
+export type TRanges = IBaseOutput<TRangesObjRange>;
 
 /** Range of strings
  *
@@ -38,13 +23,13 @@ type TRanges = IOutput<IRangesObjRange>;
  * @class Range
  */
 class Range {
-  private positionIds: any;
+  private positionIds!: number[];
 
-  private seqIds: any;
+  private sequentialIds!: number[];
 
   private collections: any;
 
-  private posRanges: any;
+  private positionRanges: any;
 
   /** Create a range
    * @param {TTokens} tokens - tokens generated with {@link Token}
@@ -56,14 +41,14 @@ class Range {
   }
 
   get ranges(): TRanges {
-    this.getPositionIds();
-    this.makeSequentialIds();
-    this.generateCollections();
-    this.createPositionRanges();
-    return this.posRanges;
+    this.setPositionIds();
+    this.createSequentialIds();
+    this.setCollections();
+    this.calcPositionRanges();
+    return this.positionRanges;
   }
 
-  private createPositionRanges(): void {
+  private calcPositionRanges(): void {
     const posRanges: any = Object.values({ ...this.positions });
     const objKeys = Object.keys(posRanges[0]);
     Object.entries(posRanges).forEach((outRange: any) => {
@@ -79,18 +64,19 @@ class Range {
         posRanges[key][objKey] = res;
       });
     });
-    this.posRanges = posRanges;
+    this.positionRanges = posRanges;
   }
 
-  private generateCollections(): void {
+  private setCollections(): void {
     const collections: any = {};
-    let pivotIndex = 0;
+    let pivotIndex: number = 0;
 
-    this.seqIds.forEach((seqId: number) => {
-      const token = this.tokens[seqId];
-      const tokenLength = token.length;
-      if (this.positionIds.includes(seqId)) {
-        const range = Range.getRange(pivotIndex, tokenLength);
+    this.sequentialIds.forEach((seqId: number) => {
+      const token: string = this.tokens[seqId];
+      const tokenLength: number = token.length;
+      const hasSeqId: boolean = this.positionIds.includes(seqId);
+      if (hasSeqId) {
+        const range: number[] = Range.getRange(pivotIndex, tokenLength);
         collections[seqId] = range;
       }
       pivotIndex += tokenLength;
@@ -99,14 +85,14 @@ class Range {
     this.collections = collections;
   }
 
-  private makeSequentialIds(): void {
-    const maxId = Math.max(...this.positionIds);
-    const seqIds = Utils.seq(0, maxId);
-    this.seqIds = seqIds;
+  private createSequentialIds(): void {
+    const maxId: number = Math.max(...this.positionIds);
+    const seqIds: number[] = Utils.seq(0, maxId);
+    this.sequentialIds = seqIds;
   }
 
-  private getPositionIds(): void {
-    const arrIds = this.positions.map((position: any) =>
+  private setPositionIds(): void {
+    const arrIds: number[] = this.positions.map((position: TPositionsObj) =>
       Object.values(position),
     );
     const positionIds = arrIds.flat(2) as number[];

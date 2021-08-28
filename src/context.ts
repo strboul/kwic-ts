@@ -1,36 +1,19 @@
-import { TTokens } from "./token";
-import { Window, IWindow } from "./window";
-import { IBaseMethods } from "./IBaseMethods";
+import { TTokens } from "@src/token";
+import { Window, TWindow } from "@src/window";
+import { IBaseOutput, IBaseElement } from "@src/IBase";
 
-// TODO standardize interfaces that the object keys have
-// the same names:
-export interface IPositionsObj {
-  index: number;
-  left: number[];
-  right: number[];
-}
+export type TPositionsObj = IBaseElement<number, number[]>;
+type TMatchesObj = IBaseElement<string, string[]>;
 
-// TODO standardize and follow the keys:
-// index, left, right
-interface IMatchesObj {
-  index: string;
-  left: string[];
-  right: string[];
-}
-
-interface IOutput<T> extends IBaseMethods {
-  [index: number]: T;
-}
-
-export type TPositions = IOutput<IPositionsObj>;
-type TMatches = IOutput<IMatchesObj>;
+export type TPositions = IBaseOutput<TPositionsObj>;
+export type TMatches = IBaseOutput<TMatchesObj>;
 
 class Context {
   private tokensMatch: number[] = [];
 
-  private positionsArr: any;
+  private positionsArr: any = [];
 
-  private matchesArr: any;
+  private matchesArr: any = [];
 
   constructor(
     public tokens: TTokens,
@@ -45,7 +28,6 @@ class Context {
   }
 
   get positions(): TPositions {
-    this.searchInTokens();
     this.calcPositions();
     return this.positionsArr;
   }
@@ -56,11 +38,12 @@ class Context {
   }
 
   private calcPositions(): void {
+    this.searchInTokens();
     let out = this.tokensMatch.map((value, index) => {
       if (value === -1) {
         return null;
       }
-      const { windows }: { windows: IWindow } = new Window(
+      const { windows }: { windows: TWindow } = new Window(
         this.windowLeft,
         this.windowRight,
         this.tokens,
@@ -72,26 +55,27 @@ class Context {
     this.positionsArr = out;
   }
 
+  private calcMatches(): void {
+    const matches: TMatches = this.positions.map((position: TPositionsObj) => {
+      return this.matchPositionValues(position);
+    });
+    this.matchesArr = matches;
+  }
+
   private searchInTokens(): void {
     this.tokensMatch = this.tokens.map((token: string) =>
       token.search(this.term),
     );
   }
 
-  private calcMatches(): void {
-    const matches = this.positions.map((position: any) => {
-      return this.matchPositionValues(position);
-    });
-    this.matchesArr = matches;
-  }
-
-  private matchPositionValues(position: any): any {
-    let out = {};
-    Object.keys(position).forEach((key: any) => {
+  private matchPositionValues(position: TPositionsObj): object {
+    let out: object = {};
+    Object.keys(position).forEach((key: string) => {
       const sub = position[key];
       let values;
-      if (Array.isArray(sub)) {
-        values = sub.map((sk: any) => this.tokens[sk]);
+      const isSubArr: boolean = Array.isArray(sub);
+      if (isSubArr) {
+        values = sub.map((s: number) => this.tokens[s]);
       } else {
         values = this.tokens[sub];
       }

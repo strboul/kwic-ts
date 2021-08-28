@@ -72,7 +72,7 @@ a {
 }
 
 .Title {
-  background-color: #a3daff;
+  background-color: #ffffff9c;
   padding: 0.2em 0.2em 0.5em 0.2em;
   border-radius: 0.2em;
   opacity: 0.8;
@@ -87,25 +87,32 @@ a {
   padding-right: 2em;
 }
 
-.Input > label {
+.Label {
   display: block;
   color: gray;
   font-style: italic;
 }
 
+.FieldBlock {
+  margin-top: 1em;
+}
+
 .TextField {
-  margin-top: 2em;
   background-color: whitesmoke;
   padding: 1em;
 }
 
 mark.blue {
   background-color: #a3daff;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   opacity: 0.8;
 }
 
 mark.red {
   background-color: #ffc9c9;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
   opacity: 0.8;
 }
 
@@ -120,5 +127,6 @@ mark.red {
 
   .TextField {
     margin-top: 0.5em;
+    overflow-x: auto;
   }
 }

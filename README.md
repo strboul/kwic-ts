@@ -5,7 +5,7 @@
 <!-- badges: start -->
 [![CI](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml)
 [![deploy-gh-pages](https://github.com/strboul/kwic-ts/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/deploy-gh-pages.yml)
-[![npm](https://img.shields.io/npm/v/@strboul/kwic-ts?color=%23EA2039)](https://www.npmjs.com/package/@strboul/kwic-ts)
+[![npm](https://img.shields.io/npm/v/@strboul/kwic-ts?label=npm%20release&color=%23EA2039)](https://www.npmjs.com/package/@strboul/kwic-ts)
 <!-- badges: end -->
 
 KWIC (Keyword-in-context) helps you see a match with adjacent words in order to
@@ -84,6 +84,15 @@ npm run test:debug-repl -- kwic.test.ts -t "token" # specify optional file and t
 
 npm run npm:link # create a symbolic link from globally-installed package-name to node_modules
 npm run npm:publish # publish to npm registry (with credentials)
+```
+
+### Release to npm
+
+```bash
+npm run npm:bumpVersion <version> # e.g. 0.1.2
+npm run npm:release
+# after publishing
+npm run npm:view
 ```
 
 ### General

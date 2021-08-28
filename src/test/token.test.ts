@@ -1,4 +1,4 @@
-import { Token } from "../token";
+import { Token } from "@src/token";
 
 describe("test Token", () => {
   const text = `   99 bottles of     beer on the wall,
