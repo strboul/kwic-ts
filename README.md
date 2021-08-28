@@ -6,6 +6,7 @@
 [![CI](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/CI.yml)
 [![deploy-gh-pages](https://github.com/strboul/kwic-ts/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/strboul/kwic-ts/actions/workflows/deploy-gh-pages.yml)
 [![npm](https://img.shields.io/npm/v/@strboul/kwic-ts?label=npm%20release&color=%23EA2039)](https://www.npmjs.com/package/@strboul/kwic-ts)
+[![package.json](https://img.shields.io/github/package-json/v/strboul/kwic-ts?color=blue&label=package.json)](https://github.com/strboul/kwic-ts/blob/master/package.json)
 <!-- badges: end -->
 
 KWIC (Keyword-in-context) helps you see a match with adjacent words in order to
