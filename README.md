@@ -100,4 +100,10 @@ npm run npm:view
 + The TS *types* starts with a `T` and follow the UpperCamelCase. Same rule
   applies for the *interfaces* but they start with an `I`.
 
+### Module path resolution
+
++ [tsconfig-paths](https://github.com/dividab/tsconfig-paths) is used for path resolution.
+
++ [tsc-alias](https://github.com/justkey007/tsc-alias) is to resolve paths in the `dist` folder.
+
 </details>
