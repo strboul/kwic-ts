@@ -1,12 +1,12 @@
 import { TTokens } from "@src/token";
 import { Window, TWindow } from "@src/window";
-import { IBaseOutput, IBaseElement } from "@src/IBase";
+import { IBaseArray, IBaseObject } from "@src/IBase";
 
-export type TPositionsObj = IBaseElement<number, number[]>;
-type TMatchesObj = IBaseElement<string, string[]>;
+export type TPositionsObj = IBaseObject<number, number[]>;
+type TMatchesObj = IBaseObject<string, string[]>;
 
-export type TPositions = IBaseOutput<TPositionsObj>;
-export type TMatches = IBaseOutput<TMatchesObj>;
+export type TPositions = IBaseArray<TPositionsObj>;
+export type TMatches = IBaseArray<TMatchesObj>;
 
 class Context {
   private tokensMatch: number[] = [];

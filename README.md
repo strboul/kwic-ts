@@ -9,7 +9,7 @@
 [![package.json](https://img.shields.io/github/package-json/v/strboul/kwic-ts?color=blue&label=package.json)](https://github.com/strboul/kwic-ts/blob/master/package.json)
 <!-- badges: end -->
 
-KWIC (Keyword-in-context) helps you see a match with adjacent words in order to
+[KWIC (Keyword-in-context)](https://en.wikipedia.org/wiki/Key_Word_in_Context) helps you see a match with adjacent words in order to
 convey more information about the context.
 
 ## Usage

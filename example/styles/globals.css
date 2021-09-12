@@ -102,6 +102,41 @@ a {
   padding: 1em;
 }
 
+.ExampleClearFill {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ExampleClearFill button {
+  cursor: pointer;
+  margin: 0.5em;
+  padding: 0.5em 1em 0.5em 1em;
+  border: none;
+  text-align: center;
+  background-color: darkblue;
+  color: white;
+  border-radius: 0.5em;
+}
+
+.ExampleClearFill button:hover {
+  background-color: lightblue;
+  color: black;
+}
+
+.Display {
+  display: flex;
+  flex-direction: row;
+}
+
+.Results {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+}
+
 mark.blue {
   background-color: #a3daff;
   padding-left: 0.5em;
@@ -117,6 +152,12 @@ mark.red {
 }
 
 @media screen and (max-width: 600px) {
+
+  .AppBody {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+
   .InputBody {
     flex-direction: column;
   }
@@ -128,5 +169,16 @@ mark.red {
   .TextField {
     margin-top: 0.5em;
     overflow-x: auto;
+  }
+
+  .Display {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .Results {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 }
