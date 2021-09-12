@@ -39,5 +39,5 @@ jobs:
         run: npm run lint
 
       - name: Check formatter
-        run: npm run formatter
+        run: npm run formatter:check
 

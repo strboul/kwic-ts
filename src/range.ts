@@ -1,7 +1,7 @@
 import { Utils } from "@src/utils";
 import { TPositions, TPositionsObj } from "@src/context";
 import { TTokens } from "@src/token";
-import { IBaseOutput, IBaseElement } from "@src/IBase";
+import { IBaseArray, IBaseObject } from "@src/IBase";
 
 /** Interface fakes a tuple that it cannot have more than 2 elements
  */
@@ -11,10 +11,10 @@ interface IRangesTuple {
   2?: never;
 }
 
-type TRangesTupleGroup = IBaseOutput<IRangesTuple>;
-type TRangesObjRange = IBaseElement<IRangesTuple, TRangesTupleGroup>;
+type TRangesTupleGroup = IBaseArray<IRangesTuple>;
+type TRangesObjRange = IBaseObject<IRangesTuple, TRangesTupleGroup>;
 
-export type TRanges = IBaseOutput<TRangesObjRange>;
+export type TRanges = IBaseArray<TRangesObjRange>;
 
 /** Range of strings
  *

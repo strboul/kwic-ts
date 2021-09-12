@@ -1,9 +1,9 @@
 import { Utils } from "@src/utils";
 import { TTokens } from "@src/token";
-import { IBaseElement } from "@src/IBase";
+import { IBaseObject } from "@src/IBase";
 
 export type TWindowElement = number[] | [];
-export type TWindow = IBaseElement<number, TWindowElement>;
+export type TWindow = IBaseObject<number, TWindowElement>;
 
 class Window {
   max: number;

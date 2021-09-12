@@ -4,11 +4,11 @@ export interface IBaseMethod {
   [x: string]: any;
 }
 
-export interface IBaseOutput<T> extends IBaseMethod {
+export interface IBaseArray<T> extends IBaseMethod {
   [index: number]: T;
 }
 
-export interface IBaseElement<T1, T2> extends IBaseMethod {
+export interface IBaseObject<T1, T2> extends IBaseMethod {
   index: T1;
   left: T2;
   right: T2;

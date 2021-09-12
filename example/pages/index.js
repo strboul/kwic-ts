@@ -190,6 +190,39 @@ const Concordance = ({ matches }) => {
   );
 };
 
+const ExampleClearFill = ({ setTerm, setTextField }) => {
+  return (
+    <div className="ExampleClearFill">
+      <button
+        onClick={() => {
+          setTerm("");
+          setTextField("");
+        }}
+        title="Clean the example input"
+      >
+        Clean input
+      </button>
+      <button
+        onClick={() => {
+          setTerm(DEFAULT_TERM);
+          setTextField(DEFAULT_TEXT);
+        }}
+        title="Fill the inputs with the example"
+      >
+        Fill example
+      </button>
+    </div>
+  );
+};
+
+const Display = ({ children }) => {
+  return <div className="Display">{children}</div>;
+};
+
+const Results = ({ children }) => {
+  return <div className="Results">{children}</div>;
+};
+
 const Index = () => {
   // TODO useReducer?
   const [windows, setWindows] = React.useState(DEFAULT_WINDOWS);
@@ -217,12 +250,17 @@ const Index = () => {
           <InputWindow id="left" windows={windows} setWindows={setWindows} />
           <InputWindow id="right" windows={windows} setWindows={setWindows} />
         </InputBody>
-        <TextField
-          textField={textField}
-          setTextField={setTextField}
-          ranges={ranges}
-        />
-        <Concordance matches={matches} />
+        <Display>
+          <Results>
+            <TextField
+              textField={textField}
+              setTextField={setTextField}
+              ranges={ranges}
+            />
+            <Concordance matches={matches} />
+          </Results>
+          <ExampleClearFill setTerm={setTerm} setTextField={setTextField} />
+        </Display>
       </AppBody>
     </>
   );
